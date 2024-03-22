@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import baseUrl from '../../api';
+import './login.css';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate =useNavigate();
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handleSignin = async () => {
+        if (!email || !password) {
+            setError("All fields are required");
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${baseUrl}/user/login`, {
+                email,
+                password
+            });
+            const {token}=response.data.data;
+            const {fullName}=response.data.data.user;
+            
+            if (token) {
+                localStorage.setItem('token',token);
+                localStorage.setItem('name',fullName);
+                navigate("/home")
+            } else {
+                setError("Login failed");
+            }
+        } catch (error) {
+            // console.error('Error signing in:', error.response.data.message);
+            setError(error.response.data.message);
+        }
+    };
+
+    return (
+        <div className="login-container">
+            <div className='login-heading'>
+                <img src="src/assets/image 4.png" alt="Icon" />
+                <h3>Musicart</h3>
+            </div>
+
+            <div className="wrapper">
+                <h1>Sign in</h1>
+                <div className="form-group">
+                    <label htmlFor="email">Enter your email or mobile number</label>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+                </div>
+
+                {error && <p className='error'>{error}</p>}
+
+                <button onClick={handleSignin}>Continue</button>
+                <div className="form-group">
+                    <p>By continuing, you agree to Musicart privacy notice and conditions of use.</p>
+                </div>
+            </div>
+
+            <div className='login-lower-box'>
+                <div className="para">
+                    <hr />  
+                    <p>New to Musicart? </p>
+                    <hr />
+                </div>
+                <Link to="/signup">Create your Musicart account</Link>
+            </div>
+            
+        </div>
+    );
+};
+
+export default Login;

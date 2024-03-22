@@ -1,0 +1,181 @@
+section {
+    max-width: 1516px;
+    width: 95%;
+    margin: auto;
+    margin-top: 30px;
+}
+.Head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Head-content{
+    display: flex;
+    align-items: center;
+    height: 63px;
+  
+}
+.rightHead{
+    display: flex;
+    align-items: center;
+    /* height: 63px; */
+    margin: 20px;
+    gap: 20px;
+  
+}
+.curentPath{
+    margin: 20px;
+}
+
+   
+.Head-content div {
+   
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    
+}
+
+.banner {
+    position: relative; /* Make the banner position relative for absolute positioning */
+    background-image: linear-gradient(#7286B4, #E794CE);
+    height: 307px;
+    border-radius: 29px;
+    display: flex;
+    justify-content: center; /* Center align banner content */
+    align-items: center; /* Center align banner content */
+}
+
+.banner-content {
+    text-align: center; /* Center align banner text */
+}
+
+.banner-content p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 58px;
+    margin: 0; 
+    width: 50%;
+}
+
+.banner-image {
+    position: absolute;
+    width: 532px;
+    /* height: 320px; */
+    bottom: 0; /* Position the banner image at the bottom */
+    right: 0;
+}
+
+/* Section 2 */
+.search-box {
+    position: relative; 
+   
+}
+
+.search-box img {
+    position: absolute;
+    width: 35px;
+    margin-top: 14px;
+    margin-left: 20px;
+}
+
+.search-box input {
+    max-width: 100%;
+    width: calc(100%); /* Adjusted */
+    height: 60px;
+    border-radius: 48px;
+    padding-left: 90px;
+}
+
+.search-box select {
+    max-width: 100%;
+    width: 200px; /* Adjust width as needed */
+}
+
+.all-buttons {
+    display: flex;
+    align-items: center;
+    height: 90px;
+    justify-content: space-between;
+}
+
+.button-box select{
+    background-color: #D9D9D9;
+    width: 200px;
+    border-radius: 34px;
+    height: 30px;
+}
+
+/* section2 ends */
+
+/* section3 */
+/* grid view start here */
+.grid-view {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cart-image{
+    display: inline-block;
+    position: relative;
+    width: 51px;
+    height: 51px;
+}
+
+.grid-item{
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #fff;
+    margin: 10px;
+}
+
+.grid-item img {
+    background-color: #D4E5FF;
+    width: 100%;
+    max-width: 250px;
+    height: 300px;
+}
+/* grid view end here */
+
+
+/* List view starts here */
+.list-view {
+    display: inline-block;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.list-item{
+    /* width: 250px; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid #fff;
+    margin: 10px;
+}
+
+.list-item img {
+    background-color: #D4E5FF;
+    width: 100%;
+    max-width: 250px;
+    height: 300px;
+}
+/* List view ends here */
+
+
+/* Adjust styles for screens smaller than 768px */
+@media screen and (max-width: 768px) {
+    .banner-content p {
+        font-size: 36px;
+        width: auto;
+    }
+
+    .banner-image {
+        display: none; /* Hide the banner image on smaller screens */
+    }
+}
+

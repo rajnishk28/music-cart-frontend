@@ -1,0 +1,25 @@
+nav{
+    max-width: 1728px;
+    height: 63px;
+    background-color: #2E0052;
+}
+.nav-container{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 20px;
+}
+.nav-img{
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.login-signup{
+   text-decoration: none;
+    margin: 3px;
+}
+.nav-item{
+    color: #FFFFFF;
+   
+}
