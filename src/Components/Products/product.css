@@ -4,58 +4,120 @@ section {
     margin: auto;
     margin-top: 30px;
 }
-.Head{
+
+.Head {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.Head-content{
+.Head-content {
     display: flex;
     align-items: center;
     height: 63px;
-  
+
 }
-.rightHead{
+
+.rightHead {
     display: flex;
     align-items: center;
-    /* height: 63px; */
     margin: 20px;
     gap: 20px;
-  
+
 }
-.curentPath{
+
+.rightHead a {
+    /* display: inline-block; */
+    width: 200px;
+    height: 52px;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+    background-color: #1D7000;
+    border-radius: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.profile {
+
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #2E0052;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.profile.active .hoverbox {
+    display: flex;
+}
+
+.hoverbox {
+    display: none;
+    border-radius: 20px;
+    position: absolute;
+    padding: 10px;
+    z-index: 5;
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    width: 133px;
+    height:80px;
+    margin-top: 120px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    justify-content: center;
+    gap: 5px;
+}
+
+.curentPath {
     margin: 20px;
 }
 
-   
+
 .Head-content div {
-   
+
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 32px;
-    
+
 }
 
 .banner {
-    position: relative; /* Make the banner position relative for absolute positioning */
+    position: relative;
+    /* Make the banner position relative for absolute positioning */
     background-image: linear-gradient(#7286B4, #E794CE);
     height: 307px;
     border-radius: 29px;
     display: flex;
-    justify-content: center; /* Center align banner content */
-    align-items: center; /* Center align banner content */
+    justify-content: center;
+    /* Center align banner content */
+    align-items: center;
+    /* Center align banner content */
 }
 
 .banner-content {
-    text-align: center; /* Center align banner text */
+    text-align: center;
+    /* Center align banner text */
 }
 
 .banner-content p {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 58px;
-    margin: 0; 
+    margin: 0;
     width: 50%;
 }
 
@@ -63,14 +125,15 @@ section {
     position: absolute;
     width: 532px;
     /* height: 320px; */
-    bottom: 0; /* Position the banner image at the bottom */
+    bottom: 0;
+    /* Position the banner image at the bottom */
     right: 0;
 }
 
 /* Section 2 */
 .search-box {
-    position: relative; 
-   
+    position: relative;
+
 }
 
 .search-box img {
@@ -82,7 +145,8 @@ section {
 
 .search-box input {
     max-width: 100%;
-    width: calc(100%); /* Adjusted */
+    width: calc(100%);
+    /* Adjusted */
     height: 60px;
     border-radius: 48px;
     padding-left: 90px;
@@ -90,7 +154,8 @@ section {
 
 .search-box select {
     max-width: 100%;
-    width: 200px; /* Adjust width as needed */
+    width: 200px;
+    /* Adjust width as needed */
 }
 
 .all-buttons {
@@ -98,9 +163,10 @@ section {
     align-items: center;
     height: 90px;
     justify-content: space-between;
+    /* max-width: fit-content; */
 }
 
-.button-box select{
+.button-box select {
     background-color: #D9D9D9;
     width: 200px;
     border-radius: 34px;
@@ -117,14 +183,14 @@ section {
     justify-content: center;
 }
 
-.cart-image{
+.cart-image {
     display: inline-block;
     position: relative;
     width: 51px;
     height: 51px;
 }
 
-.grid-item{
+.grid-item {
     width: 250px;
     display: flex;
     flex-direction: column;
@@ -139,6 +205,7 @@ section {
     max-width: 250px;
     height: 300px;
 }
+
 /* grid view end here */
 
 
@@ -149,7 +216,7 @@ section {
     justify-content: center;
 }
 
-.list-item{
+.list-item {
     /* width: 250px; */
     display: flex;
     flex-direction: row;
@@ -164,18 +231,32 @@ section {
     max-width: 250px;
     height: 300px;
 }
+
 /* List view ends here */
 
 
 /* Adjust styles for screens smaller than 768px */
 @media screen and (max-width: 768px) {
+    nav {
+        display: none;
+    }
+
+    .Head {
+        display: none;
+    }
+
     .banner-content p {
         font-size: 36px;
         width: auto;
     }
 
     .banner-image {
-        display: none; /* Hide the banner image on smaller screens */
+        display: none;
+        /* Hide the banner image on smaller screens */
+    }
+
+    .all-buttons {
+        max-width: fit-content;
+        overflow-x: auto;
     }
 }
-

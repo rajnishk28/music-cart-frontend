@@ -3,7 +3,8 @@ import "./product.css"
 import Nav from '../Nav/Nav'
 import axios from 'axios'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import baseUrl from "../../api"
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -11,27 +12,42 @@ const Products = () => {
   const [companyType, setCompanyType] = useState('');
   const [colorType, setColorType] = useState('');
   const [price, setPrice] = useState('');
-  const [sortByPrice, SetsortByPrice] = useState('');
+  const [sortBy, SetsortBy] = useState('');
+  const [search, setSearch] = useState("")
   const [layout, setLayout] = useState('grid');
+  const [profileVisible, setProfileVisible] = useState(false);
 
   const currentPath = window.location.pathname;
+  const navigate=useNavigate();
 
 
   useEffect(() => {
-    axios.get('https://fakestoreapi.com/products',).then((res) => {
-      setProducts(res.data);
+    axios.get(`${baseUrl}/product/getall?name=${search}&&color=${colorType}&&company=${companyType}&&headphone_type=${headPhoneType}&&sortBy=${sortBy}`).then((res) => {
+      setProducts(res.data.products);
       // console.log(res.data);
     }).catch((err) => {
       console.log(err)
     });
-  })
+  }, [search, colorType, companyType, headPhoneType, sortBy]);
 
-  // console.log(headPhoneType, companyType, colorType, price, sortByPrice);
   const toggleLayout = (layoutType) => {
     setLayout(layoutType);
-    console.log(layoutType);
+    // console.log(layoutType);
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    //  console.log(search)
+  }
+
+  const toggleProfile = () => {
+    setProfileVisible(!profileVisible);
+  };
+
+  const handleNavigate =(id)=>{
+    console.log(id);
+    navigate(`/product/${id}`)
+  }
 
   return (
     <>
@@ -43,18 +59,33 @@ const Products = () => {
             <div>
               <img src="src/assets/image 4.png" alt="" />
             </div>
-           <div>Musicart </div> 
+            <div>Musicart </div>
 
-           <div className='curentPath'>{`${currentPath}`}</div>
+            <div className='curentPath'>{`${currentPath}`}</div>
           </div>
 
           <div className="rightHead">
-            <div><a href="/cart">View Cart</a></div>
-            <div> name</div>
+            <div className='cart-box'>
+              <a href="/cart">View Cart</a>
+            </div>
+
+            <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
+              Name
+              <div className="hoverbox">
+                <div className="content">
+                <div>Rajnish Kumar</div>
+                <div>
+                  Logout
+                  </div>
+                  </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
       </section>
+      
       <section>
         <div className='banner'>
           <div className='banner-content'>
@@ -69,7 +100,7 @@ const Products = () => {
         <div className='section-2'>
           <div className='search-box'>
             <img src="src\assets\search.png" alt="" />
-            <input type="text" placeholder='Search by Product Name' />
+            <input type="text" placeholder='Search by Product Name' onChange={handleSearch} />
           </div>
 
           <div className='all-buttons'>
@@ -85,31 +116,38 @@ const Products = () => {
                 {/* list */}
               </span>
             </div>
-            <div className='button-box'>
+            <div className='button-box headphone'>
               <select onChange={(e) => { setHeadPhoneType(e.target.value) }}>
                 <option value="">Headphone type</option>
-                <option value="In-ear headphone">In-ear headphone</option>
-                <option value="On-ear headphone">On-ear headphone</option>
-                <option value="Over-ear headphone">Over-ear headphone</option>
+                <option value="in-Ear">In-ear headphone</option>
+                <option value="On-ear">On-ear headphone</option>
+                <option value="Over-ear">Over-ear headphone</option>
               </select>
             </div>
-            <div className='button-box'>
+            <div className='button-box comapny'>
               <select onChange={(e) => { setCompanyType(e.target.value) }}>
                 <option value="">Company</option>
                 <option value="JBL">JBL</option>
                 <option value="Apple">Apple</option>
                 <option value="Sony">Sony</option>
+                <option value="others">Others</option>
+                <option value="boult">Boult</option>
+                <option value="lg">Lg</option>
               </select>
             </div>
-            <div className='button-box'>
+            <div className='button-box color'>
               <select onChange={(e) => { setColorType(e.target.value) }} >
                 <option value="">Colour</option>
                 <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="black">Black</option>
+                <option value="pink">Pink</option>
+                <option value="yellow">Yellow</option>
+                <option value="white">White</option>
+                <option value="brown">Brown</option>
               </select>
             </div>
-            <div className='button-box'>
+            <div className='button-box price'>
               <select onChange={(e) => { setPrice(e.target.value) }}>
                 <option value="">Price</option>
                 <option value="₹0 - ₹1,000">₹0 - ₹1,000</option>
@@ -118,12 +156,12 @@ const Products = () => {
               </select>
             </div>
             <div className='button-box'>
-              <select onChange={(e) => { SetsortByPrice(e.target.value) }}>
+              <select onChange={(e) => { SetsortBy(e.target.value) }}>
                 <option value="">Sort by : Featured</option>
-                <option value="Price : Lowest">Price : Lowest</option>
-                <option value="Price : Highest">Price : Highest</option>
-                <option value="A-Z">Name : (A-Z)</option>
-                <option value="Z-A">Name : (Z-A)</option>
+                <option value="lowestPrice">Price : Lowest</option>
+                <option value="highestPrice">Price : Highest</option>
+                <option value="aToZ">Name : (A-Z)</option>
+                <option value="zToA">Name : (Z-A)</option>
               </select>
             </div>
           </div>
@@ -132,18 +170,20 @@ const Products = () => {
       {/* section 2 Ends here */}
 
       <section>
-       
+
         <div className={` ${layout === 'grid' ? 'grid-view' : 'list-view'}`}>
           {products.map((product) => (
-            <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product.id}>
-              <img src={product.image} alt="" />
+            <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
+              <img src={product.imageUrl} alt="" onClick={()=>handleNavigate(product._id)} />
               <div>
                 {/* <div>
                    <img src="src\assets\cart.png" className='cart-image' />
                    </div> */}
-                <p className='list-title'> <strong>{product.title}</strong> </p>
+                <p className='list-title'> <strong>{product.name}</strong> </p>
+                <p className='list-title'> <strong>{product.company}</strong> </p>
                 <span className='list-price'>Price - {product.price}</span>
-                <p className='list-category'>{product.category}</p>
+                <p className='list-category'>{product.color} | {product.headphone_type}</p>
+
                 {layout === 'list' ? <Link to={`/products/${product.id}`} className='view-button'>Details</Link> : null}
               </div>
             </div>

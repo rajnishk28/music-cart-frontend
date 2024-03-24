@@ -30,12 +30,14 @@ const Login = () => {
                 email,
                 password
             });
+            // console.log(response.data.data.user._id)
             const {token}=response.data.data;
-            const {fullName}=response.data.data.user;
+            const {fullName,_id}=response.data.data.user;
             
             if (token) {
                 localStorage.setItem('token',token);
                 localStorage.setItem('name',fullName);
+                localStorage.setItem('userId',_id);
                 navigate("/home")
             } else {
                 setError("Login failed");
