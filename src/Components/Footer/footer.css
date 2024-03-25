@@ -18,5 +18,6 @@
     .foot {
         background-color: #2E0052;
         color: #FFFFFF;
+        display: none;
     }
 }

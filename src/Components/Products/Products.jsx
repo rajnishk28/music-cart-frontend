@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./product.css"
 import Nav from '../Nav/Nav'
 import axios from 'axios'
@@ -16,9 +18,13 @@ const Products = () => {
   const [search, setSearch] = useState("")
   const [layout, setLayout] = useState('grid');
   const [profileVisible, setProfileVisible] = useState(false);
-
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const currentPath = window.location.pathname;
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const Name = localStorage.getItem("name");
+
 
 
   useEffect(() => {
@@ -44,10 +50,22 @@ const Products = () => {
     setProfileVisible(!profileVisible);
   };
 
-  const handleNavigate =(id)=>{
+  const handleNavigate = (id) => {
     console.log(id);
     navigate(`/product/${id}`)
   }
+  const HandleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    // navigate("/login");
+    return;
+  }
+
+  const toggleFeedbackForm = () => {
+    setShowFeedbackForm(!showFeedbackForm);
+  };
+
 
   return (
     <>
@@ -64,28 +82,34 @@ const Products = () => {
             <div className='curentPath'>{`${currentPath}`}</div>
           </div>
 
-          <div className="rightHead">
+          {token ? <div className="rightHead">
             <div className='cart-box'>
-              <a href="/cart">View Cart</a>
+
+              <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
             </div>
 
             <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
-              Name
+
+              {Name.charAt(0)}
+              {Name.split(' ').length > 1 && Name.split(' ')[Name.split(' ').length - 1].charAt(0)}
+
+
               <div className="hoverbox">
                 <div className="content">
-                <div>Rajnish Kumar</div>
-                <div>
-                  Logout
+                  <div>{Name}</div>
+                  <div onClick={HandleLogout}>
+                    Logout
                   </div>
-                  </div>
+                </div>
               </div>
             </div>
 
-          </div>
+          </div> : null}
+
         </div>
 
       </section>
-      
+
       <section>
         <div className='banner'>
           <div className='banner-content'>
@@ -95,6 +119,7 @@ const Products = () => {
         </div>
 
       </section>
+
       {/* section 2 starts here */}
       <section>
         <div className='section-2'>
@@ -174,17 +199,20 @@ const Products = () => {
         <div className={` ${layout === 'grid' ? 'grid-view' : 'list-view'}`}>
           {products.map((product) => (
             <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
-              <img src={product.imageUrl} alt="" onClick={()=>handleNavigate(product._id)} />
+              <div className="listimage">
+                <img src={product.imageUrl} alt="#" onClick={() => handleNavigate(product._id)} />
+                <div className='cart-icon-image'>
+                  <FontAwesomeIcon icon={faShoppingCart} />
+                  </div>
+              </div>
               <div>
-                {/* <div>
-                   <img src="src\assets\cart.png" className='cart-image' />
-                   </div> */}
-                <p className='list-title'> <strong>{product.name}</strong> </p>
-                <p className='list-title'> <strong>{product.company}</strong> </p>
+
+                <p className='list-title'> <strong>{product.company} {product.name}</strong> </p>
+                {layout === 'list' ? <p className='list-description'>{product.description}</p> : null}
                 <span className='list-price'>Price - {product.price}</span>
                 <p className='list-category'>{product.color} | {product.headphone_type}</p>
 
-                {layout === 'list' ? <Link to={`/products/${product.id}`} className='view-button'>Details</Link> : null}
+                {layout === 'list' ? <div  className='view-button' onClick={() => handleNavigate(product._id)}>Details</div> : null}
               </div>
             </div>
           ))}
@@ -193,6 +221,33 @@ const Products = () => {
 
 
       </section >
+
+      <div className="feedback-container">
+        <div className="feedback-icon" onClick={toggleFeedbackForm}>
+          <FontAwesomeIcon icon={faQuestionCircle} size='3x' />
+        </div>
+
+        {showFeedbackForm && (
+          <div className="feedback-form">
+            <h1>Type of feedback</h1>
+            <div className='select-option'>
+              <select defaultValue="choose">
+                <option disabled value="choose">Choose the type</option>
+                <option value="bugs">Bugs</option>
+                <option value="feedback">Feedback</option>
+                <option value="query">Query</option>
+              </select>
+            </div>
+            <div>
+              <textarea placeholder='Enter your feedback...' rows="4" cols="50" />
+            </div>
+            <div className="btn">
+              <button>Submit</button>
+            </div>
+          </div>
+
+        )}
+      </div>
     </>
   )
 }

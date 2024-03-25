@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
-import { useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../api';
 import "./productdetails.css";
@@ -9,6 +9,11 @@ import Header from '../Header/Header';
 const ProductDetails = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const navigate=useNavigate();
+
+    const token =localStorage.getItem("token");
+
+   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +33,7 @@ const ProductDetails = () => {
             const token = localStorage.getItem('token'); 
             if (!token) {
                 // Handle case when token is not available
+                navigate("/login");
                 console.error('Token not found');
                 return;
             }
@@ -51,10 +57,14 @@ const ProductDetails = () => {
 
     return (
         <>
-            <Nav />
-            <Header />
+            <Nav className="Navbar"/>
+            <Header className="Header"/>
             <section>
+
+                <button className='back-button'>Back to products</button>
+
                 <div className="product-details-container">
+
                     <div className="product-image">
                         {product && (
                             <img src={product.imageUrl} alt="Product" className="product-img" />

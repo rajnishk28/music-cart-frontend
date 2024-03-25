@@ -1,4 +1,6 @@
 import React, { useEffect ,useState} from 'react'
+import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./header.css"
 
 const Header = () => {
@@ -23,20 +25,9 @@ const Header = () => {
 
                     <div className="rightHead">
                         <div className='cart-box'>
-                            <a href="/cart">View Cart</a>
+                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
                         </div>
 
-                        <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
-                            Name
-                            <div className="hoverbox">
-                                <div className="content">
-                                    <div>Rajnish Kumar</div>
-                                    <div>
-                                        Logout
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
