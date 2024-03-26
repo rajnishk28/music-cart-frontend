@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
-import { redirect, useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../api';
 import "./productdetails.css";
@@ -12,6 +12,7 @@ const ProductDetails = () => {
     const navigate=useNavigate();
 
     const token =localStorage.getItem("token");
+    
 
    
 
@@ -54,21 +55,27 @@ const ProductDetails = () => {
             console.error('Error adding item to cart:', error);
         }
     };
-
+const handleGoBack =()=>{
+    navigate("/home")
+}
     return (
         <>
             <Nav className="Navbar"/>
-            <Header className="Header"/>
+            <Header className="Header-container"/>
             <section>
 
-                <button className='back-button'>Back to products</button>
+                <button className='back-button' onClick={handleGoBack}>Back to products</button>
 
                 <div className="product-details-container">
 
-                    <div className="product-image">
+                    <div className="product-images-container">
+                        <div className="product-img">
+
                         {product && (
-                            <img src={product.imageUrl} alt="Product" className="product-img" />
+                            <img src={product.imageUrl}  />
                         )}
+                        </div>
+                        
                     </div>
 
                     <div className="product-description">
@@ -82,6 +89,7 @@ const ProductDetails = () => {
                                         ))}
                                     </div>
                                 </div>
+
                                 <p className="product-price">Price: {product.price}</p>
                                 <p className="product-price">{product.color} | {product.headphone_type}</p>
                                 <p>{product.description}</p>

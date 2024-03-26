@@ -11,7 +11,7 @@ const Header = () => {
         setProfileVisible(!profileVisible);
     };
     return (
-        <div>
+        <div className='header'>
             <section>
                 <div className='Head'>
                     <div className='Head-content'>

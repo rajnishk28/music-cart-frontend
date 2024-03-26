@@ -39,9 +39,9 @@
 }
 
 .product-image {
-    width: 100px; /* Adjust as needed */
+    /* width: 100px; /* Adjust as needed */
     height: 100px; /* Adjust as needed */
-    margin-right: 10px;
+    margin-right: 10px; */
 }
 
 .address-input {

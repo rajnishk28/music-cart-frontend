@@ -208,7 +208,28 @@ section {
     max-width: 250px;
     height: 300px;
 }
-
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Adjust height as needed */
+  }
+  
+  .loading::after {
+    content: '';
+    width: 40px; /* Width of the spinner */
+    height: 40px; /* Height of the spinner */
+    border: 4px solid #f3f3f3; /* Light grey border */
+    border-top: 4px solid #3498db; /* Blue border on top */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Spin animation */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
 /* grid view end here */
 
 .cart-icon-image{
@@ -356,7 +377,7 @@ textarea {
         display: none;
     }
 
-    .Head {
+    .section-head {
         display: none;
     }
 

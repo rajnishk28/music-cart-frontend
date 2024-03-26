@@ -20,6 +20,7 @@ function App() {
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/success" element={<Success />} />
       </Routes>
       <Footer />
     </Router>

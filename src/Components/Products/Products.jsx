@@ -71,7 +71,7 @@ const Products = () => {
     <>
       <Nav />
 
-      <section>
+      <section className='section-head'>
         <div className='Head'>
           <div className='Head-content'>
             <div>
@@ -193,34 +193,36 @@ const Products = () => {
         </div>
       </section>
       {/* section 2 Ends here */}
+      {products.length === 0 ? (
+        <div className="loading"></div>
+      ) : (
+        <section>
 
-      <section>
-
-        <div className={` ${layout === 'grid' ? 'grid-view' : 'list-view'}`}>
-          {products.map((product) => (
-            <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
-              <div className="listimage">
-                <img src={product.imageUrl} alt="#" onClick={() => handleNavigate(product._id)} />
-                <div className='cart-icon-image'>
-                  <FontAwesomeIcon icon={faShoppingCart} />
+          <div className={` ${layout === 'grid' ? 'grid-view' : 'list-view'}`}>
+            {products.map((product) => (
+              <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
+                <div className="listimage">
+                  <img src={product.imageUrl} alt="#" onClick={() => handleNavigate(product._id)} />
+                  <div className='cart-icon-image'>
+                    <FontAwesomeIcon icon={faShoppingCart} />
                   </div>
+                </div>
+                <div>
+
+                  <p className='list-title'> <strong>{product.company} {product.name}</strong> </p>
+                  {layout === 'list' ? <p className='list-description'>{product.description}</p> : null}
+                  <span className='list-price'>Price - {product.price}</span>
+                  <p className='list-category'>{product.color} | {product.headphone_type}</p>
+
+                  {layout === 'list' ? <div className='view-button' onClick={() => handleNavigate(product._id)}>Details</div> : null}
+                </div>
               </div>
-              <div>
+            ))}
+          </div>
 
-                <p className='list-title'> <strong>{product.company} {product.name}</strong> </p>
-                {layout === 'list' ? <p className='list-description'>{product.description}</p> : null}
-                <span className='list-price'>Price - {product.price}</span>
-                <p className='list-category'>{product.color} | {product.headphone_type}</p>
+        </section >
 
-                {layout === 'list' ? <div  className='view-button' onClick={() => handleNavigate(product._id)}>Details</div> : null}
-              </div>
-            </div>
-          ))}
-        </div>
-
-
-
-      </section >
+      )}
 
       <div className="feedback-container">
         <div className="feedback-icon" onClick={toggleFeedbackForm}>
