@@ -28,7 +28,7 @@ const Nav = () => {
             Get 50% off on selected items | Shop Now
           </div>
           {token ? (
-            <div className="nav-item" onClick={handleLogout}>Logout</div>
+            <div className="nav-item logout" onClick={handleLogout}>Logout</div>
           ) : (
             <div className='nav-item signup-login-container'>
               <Link className=' nav-item login-signup' to={"/login"}> Login </Link>

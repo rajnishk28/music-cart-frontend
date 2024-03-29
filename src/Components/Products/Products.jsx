@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import baseUrl from "../../api"
+import Header from '../Header/Header';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,8 +20,11 @@ const Products = () => {
   const [layout, setLayout] = useState('grid');
   const [profileVisible, setProfileVisible] = useState(false);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [feedbackType, setFeedbackType] = useState("");
+  const [message, setMessage] = useState("");
   const currentPath = window.location.pathname;
   const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const Name = localStorage.getItem("name");
@@ -66,11 +70,28 @@ const Products = () => {
     setShowFeedbackForm(!showFeedbackForm);
   };
 
+  const handleFeedBacksubmit = async () => {
+    // console.log(feedbackType, message);
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/feedback/create`,
+        { type: feedbackType, message: message }, // Pass data as an object
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
-      <Nav />
-
+      {/* <Header /> */}
       <section className='section-head'>
         <div className='Head'>
           <div className='Head-content'>
@@ -193,6 +214,7 @@ const Products = () => {
         </div>
       </section>
       {/* section 2 Ends here */}
+      
       {products.length === 0 ? (
         <div className="loading"></div>
       ) : (
@@ -233,7 +255,7 @@ const Products = () => {
           <div className="feedback-form">
             <h1>Type of feedback</h1>
             <div className='select-option'>
-              <select defaultValue="choose">
+              <select defaultValue="choose" onChange={(e) => setFeedbackType(e.target.value)}>
                 <option disabled value="choose">Choose the type</option>
                 <option value="bugs">Bugs</option>
                 <option value="feedback">Feedback</option>
@@ -241,10 +263,12 @@ const Products = () => {
               </select>
             </div>
             <div>
-              <textarea placeholder='Enter your feedback...' rows="4" cols="50" />
+              <textarea placeholder='Enter your feedback...' rows="4" cols="50"
+                onChange={(e) => setMessage(e.target.value)}
+              />
             </div>
             <div className="btn">
-              <button>Submit</button>
+              <button onClick={handleFeedBacksubmit}>Submit</button>
             </div>
           </div>
 

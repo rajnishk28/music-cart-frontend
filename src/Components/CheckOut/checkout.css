@@ -18,6 +18,10 @@
     justify-content: space-between;
 }
 
+.backtocart{
+    width: 120px
+}
+
 .left-section {
     flex: 1;
     margin-right: 20px;
@@ -41,7 +45,7 @@
 .product-image {
     /* width: 100px; /* Adjust as needed */
     height: 100px; /* Adjust as needed */
-    margin-right: 10px; */
+    margin-right: 10px; 
 }
 
 .address-input {

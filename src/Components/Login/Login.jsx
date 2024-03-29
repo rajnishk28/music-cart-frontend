@@ -9,6 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); 
     const navigate =useNavigate();
 
     const handleEmailChange = (e) => {
@@ -24,7 +25,7 @@ const Login = () => {
             setError("All fields are required");
             return;
         }
-
+        setLoading(true);
         try {
             const response = await axios.post(`${baseUrl}/user/login`, {
                 email,
@@ -46,6 +47,7 @@ const Login = () => {
             // console.error('Error signing in:', error.response.data.message);
             setError(error.response.data.message);
         }
+        setLoading(false);
     };
 
     return (
@@ -60,8 +62,8 @@ const Login = () => {
                 <div className="form-group">
                     <label htmlFor="email">Enter your email or mobile number</label>
                     <input
-                        type="email"
-                        placeholder="Email"
+                        type="text"
+                        placeholder="Enter your email or mobile number"
                         value={email}
                         onChange={handleEmailChange}
                     />
@@ -78,7 +80,7 @@ const Login = () => {
 
                 {error && <p className='error'>{error}</p>}
 
-                <button onClick={handleSignin}>Continue</button>
+                <button onClick={handleSignin}>{loading ? 'Loading...' : "Continue"}</button>
                 <div className="form-group">
                     <p>By continuing, you agree to Musicart privacy notice and conditions of use.</p>
                 </div>

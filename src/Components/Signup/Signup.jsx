@@ -10,7 +10,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); // New state for loading indicator
+    const [loading, setLoading] = useState(false); 
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const Signup = () => {
             return;
         }
 
-        setLoading(true); // Set loading state to true when signup is initiated
+        setLoading(true); 
 
         try {
             const response = await axios.post(`${baseUrl}/user/signup`, {
@@ -37,7 +37,7 @@ const Signup = () => {
             setError(error.response?.data?.message || 'Failed to sign up. Please try again later.');
         }
 
-        setLoading(false); // Reset loading state regardless of success or failure
+        setLoading(false); 
     };
 
     return (

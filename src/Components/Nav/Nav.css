@@ -27,6 +27,9 @@ nav{
 .bottom-nav-icons{
     display: none;
 }
+.logout{
+  cursor: pointer;
+}
 
 /* .nav-item:not(.signup-login-container) {
     flex:1;

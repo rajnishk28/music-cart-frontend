@@ -3,6 +3,10 @@
     background-color: #2E0052;
     color: #FFFFFF;
     height: 87px;
+    /* bottom: 0;
+    position: fixed;
+    right: 0;
+    left: 0; */
 }
 
 .footer-text {

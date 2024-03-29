@@ -10,12 +10,8 @@ const ProductDetails = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const navigate=useNavigate();
-
     const token =localStorage.getItem("token");
     
-
-   
-
     useEffect(() => {
         const fetchData = async () => {
             try {

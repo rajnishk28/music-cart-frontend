@@ -63,9 +63,7 @@
     transition: background-color 0.3s;
 }
 
-.cart-price a:hover {
-    background-color: #0056b3;
-}
+
 
 /* Add hover effect to cart items */
 .cart-item:hover {

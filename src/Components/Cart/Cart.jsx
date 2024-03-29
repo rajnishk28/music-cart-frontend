@@ -3,8 +3,7 @@ import axios from 'axios';
 import baseUrl from '../../api';
 import './cart.css'; // Renamed to Cart.css
 import { Link } from 'react-router-dom';
-import Header from '../Header/Header';
-import Nav from '../Nav/Nav';
+
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -28,6 +27,7 @@ const Cart = () => {
 
                 setCartItems(response.data.cartItems);
 
+
                 // Calculate total price
                 let total = 0;
                 response.data.cartItems.forEach(item => {
@@ -41,6 +41,8 @@ const Cart = () => {
 
         fetchCartItems();
     }, [userId]);
+
+
 
     const calculateTotalAmount = () => {
         const discount = 0;
@@ -68,8 +70,7 @@ const Cart = () => {
 
     return (
         <>
-        <Nav/>
-            <Header />
+
             <div className="cart-container">
                 <div className="left-cart-container">
                     <h2 className="cart-title">Cart Items</h2>

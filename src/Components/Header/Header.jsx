@@ -1,15 +1,34 @@
-import React, { useEffect ,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./header.css"
+import baseUrl from '../../api';
+import axios from 'axios';
 
 const Header = () => {
     const [profileVisible, setProfileVisible] = useState(false);
     const currentPath = window.location.pathname;
 
+    const token = localStorage.getItem("token");
+
     const toggleProfile = () => {
         setProfileVisible(!profileVisible);
     };
+
+    const [cartItemCount, setCartItemCount] = useState(0);
+
+    useEffect(() => {
+          axios.get(`${baseUrl}/cart/count`, {
+            headers: {
+                Authorization: `${token}`,
+            },
+        }).then((response) => {
+            // console.log(response)
+            setCartItemCount(response.data.count);
+        })
+    }, [cartItemCount]);
+
+
     return (
         <div className='header'>
             <section>
@@ -25,7 +44,7 @@ const Header = () => {
 
                     <div className="rightHead">
                         <div className='cart-box'>
-                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
+                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart{cartItemCount}</a>
                         </div>
 
 
