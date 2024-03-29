@@ -43,22 +43,67 @@ const CheckOut = () => {
     }, [userId]);
 
     const handlePlaceOrder = async () => {
-        // Logic to place order
+        try {
+            if (!address || !paymentMethod) {
+                console.log('Address or payment method not provided');
+                return;
+            }
+            if (cartItems.length === 0) {
+                console.log('Cart is empty');
+                return;
+            }
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Token not found');
+                return;
+            }
+
+            const checkoutData = {
+
+                items: cartItems.map(item => ({
+                    productId: item.productId._id,
+                    quantity: item.quantity
+                })),
+                totalPrice: totalPrice,
+                customerName: 'John Doe',
+                shippingAddress: address,
+                paymentMethod: paymentMethod,
+                status: 'Pending'
+            };
+
+            const response = await axios.post(`${baseUrl}/checkout/create`, checkoutData, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            });
+
+            console.log('Order placed successfully:', response.data);
+            setCartItems([]);
+            navigate("/success")
+
+        } catch (error) {
+            console.error('Error placing order:', error);
+
+        }
     };
+
+
     const backToCart = () => {
         navigate("/cart")
     }
 
+    // State to track which image's additional information is currently displayed
+    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
     return (
         <div className="checkout-container">
 
-            <button className="backtocart" onClick={backToCart}>Back to cart</button>
-            <h2>Checkout</h2>
+            <div className="left-container">
+                <h2>Checkout</h2>
+                <button className="backtocart" onClick={backToCart}>Back to cart</button>
 
-            <div className="address">
-                <h1> 1.Delivery address</h1>
-
-                <div>
+                <div className="address">
+                    <h3>Delivery address</h3>
                     <textarea
                         className="address-input"
                         placeholder="Enter your address..."
@@ -66,49 +111,64 @@ const CheckOut = () => {
                         onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
-            </div>
-            <div className="payment">
-                <h2>2.Payment method</h2>
-                <select
-                    className="payment-method-select"
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                >
-                    <option value="">Select Payment Method</option>
-                    <option value="credit_card">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="cash">Cash on Delivery</option>
-                </select>
-            </div>
 
-            <div className="cart-items">
-                <div>
-                    <h1>3.Review items and delivery</h1>
+                <div className="payment">
+                    <h3>Payment method</h3>
+                    <select
+                        className="payment-method-select"
+                        value={paymentMethod}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                    >
+                        <option value="">Select Payment Method</option>
+                        <option value="credit_card">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="cash">Cash on Delivery</option>
+                    </select>
                 </div>
-                {cartItems.map((item, index) => (
-                    <div key={index} className="cart-item">
-                        <img src={item.productId.imageUrl} alt="Product" className="product-image" />
-                        <div>
-                            <p>{item.productId.name}</p>
-                            <p>Price: {item.productId.price}</p>
-                            <p>Quantity: {item.quantity}</p>
-                        </div>
+
+                <div className="cart-items">
+
+                    <div className="carthead">
+                        <h3>Review items and delivery</h3>
                     </div>
-                ))}
+
+                    {cartItems.map((item, index) => (
+                        <>
+
+                            <div key={index}
+                                className="product-image-container"
+                                onClick={() => setSelectedImageIndex(index)}
+                            >
+                                <img src={item.productId.imageUrl} alt="Product" className="product-image" />
+                            </div>
+
+                            {selectedImageIndex === index && (
+                                <div className="product-info">
+                                    <p>{item.productId.name}</p>
+                                    <p>Company: {item.productId.company}</p>
+                                    <p>Price: {item.productId.price}</p>
+                                </div>
+                            )}
+                        </>
+                    ))}
+                </div>
+
+                {/* <div>
+                    <button className="place-order-button" onClick={handlePlaceOrder}>Place Order</button>
+                    <span>Order Total: ₹{totalPrice}. By placing your order, you agree to Musicart privacy notice and conditions of use.</span>
+                </div> */}
+
             </div>
 
-            <div>
+            <div className="right-container">
+                <div className="order-summary">
+                    <h3>Order Summary</h3>
+                    <p>Total Items: {cartItems.length}</p>
+                    <p>Total Amount: ₹{totalPrice}</p>
+                </div>
                 <button className="place-order-button" onClick={handlePlaceOrder}>Place Order</button>
-                <span> Order Total : ₹3545.00 By placing your order, you agree to Musicart privacy notice and conditions of use.  </span>
             </div>
 
-
-            <div className="order-summary">
-                <h3>Order Summary</h3>
-                <p>Total Items: {cartItems.length}</p>
-                <p>Total Amount: ₹{totalPrice}</p>
-            </div>
-            <button className="place-order-button" onClick={handlePlaceOrder}>Place Order</button>
         </div>
     );
 };

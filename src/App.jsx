@@ -8,7 +8,8 @@ import ProductDetails from './Components/productDetails/ProductDetails';
 import CartPage from './pages/CartPage';
 import Success from "./Components/Success/SuccessPage"
 import ChechOutPage from './pages/ChechOutPage';
-
+import InvoicePage from './pages/InvoicePage';
+import InvoiceDetailsPage from './pages/InvoiceDetailsPage';
 
 function App() {
   return (
@@ -19,9 +20,11 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<ChechOutPage />} />
+        <Route path="/invoice" element={<InvoicePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/success" element={<Success />} />
+        <Route path="/test/:id" element={<InvoiceDetailsPage />} />
         
       </Routes>
       <Footer />
