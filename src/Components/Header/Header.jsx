@@ -18,7 +18,7 @@ const Header = () => {
     const [cartItemCount, setCartItemCount] = useState(0);
 
     useEffect(() => {
-          axios.get(`${baseUrl}/cart/count`, {
+        axios.get(`${baseUrl}/cart/count`, {
             headers: {
                 Authorization: `${token}`,
             },

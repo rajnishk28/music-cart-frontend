@@ -10,7 +10,9 @@ const CheckOut = () => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const userId = localStorage.getItem('userId');
     const [totalPrice, setTotalPrice] = useState(0);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const navigate = useNavigate();
+    const name =localStorage.getItem("name");
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -65,7 +67,7 @@ const CheckOut = () => {
                     quantity: item.quantity
                 })),
                 totalPrice: totalPrice,
-                customerName: 'John Doe',
+                customerName: name,
                 shippingAddress: address,
                 paymentMethod: paymentMethod,
                 status: 'Pending'
@@ -92,83 +94,104 @@ const CheckOut = () => {
         navigate("/cart")
     }
 
-    // State to track which image's additional information is currently displayed
-    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
 
     return (
-        <div className="checkout-container">
+        <div className="checkout-page">
+            <div className="back-to-cart">
+                <button onClick={backToCart}>Back to cart</button>
+            </div>
 
-            <div className="left-container">
-                <h2>Checkout</h2>
-                <button className="backtocart" onClick={backToCart}>Back to cart</button>
+            <div className='checkout-heading'>Checkout</div>
+            <div className="checkout-container">
 
-                <div className="address">
-                    <h3>Delivery address</h3>
-                    <textarea
-                        className="address-input"
-                        placeholder="Enter your address..."
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </div>
 
-                <div className="payment">
-                    <h3>Payment method</h3>
-                    <select
-                        className="payment-method-select"
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                    >
-                        <option value="">Select Payment Method</option>
-                        <option value="credit_card">Credit Card</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="cash">Cash on Delivery</option>
-                    </select>
-                </div>
 
-                <div className="cart-items">
+                <div className="left-container">
 
-                    <div className="carthead">
-                        <h3>Review items and delivery</h3>
+                    <div className="address-container">
+                        <h3>1.Delivery address</h3>
+                       <div>
+                       <p>{name.toUpperCase()}</p>
+                        <textarea
+                            className="address-input"
+                            placeholder="Enter your address..."
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                       </div>
                     </div>
 
-                    {cartItems.map((item, index) => (
-                        <>
+                    <div className="payment-container">
+                        <h3>2.Payment method</h3>
+                        <select
+                            className="payment-method-select"
+                            value={paymentMethod}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                            <option value="">Select Payment Method</option>
+                            <option value="credit_card">Credit Card</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="cash">Cash on Delivery</option>
+                        </select>
+                    </div>
 
-                            <div key={index}
-                                className="product-image-container"
-                                onClick={() => setSelectedImageIndex(index)}
-                            >
-                                <img src={item.productId.imageUrl} alt="Product" className="product-image" />
+                    <div className="cart-items-container">
+
+                        <div className="cart-header">
+                            <h3>3.Review items and delivery</h3>
+                        </div>
+
+                        <div className="cart-image-body">
+                            {cartItems.map((item, index) => (
+                                <div key={index}
+                                    className="product-image-container"
+                                    onClick={() => setSelectedImageIndex(index)}
+                                >
+                                        <img src={item.productId.imageUrl} alt="Product" />
+                                   
+                                       
+                                    <div className="product-info">
+                                        {selectedImageIndex === index && (
+                                            <div className="product-info-data">
+                                                <p>{item.productId.company} {item.productId.name}</p>
+                                                <p>Colour {item.productId.color}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                     </div>
+                            ))}
+                        </div>
+
+
+
+                    </div>
+
+                    <div className="left-order-button">
+                        <div className="order-content">
+                            <div className="btn">
+                            <button className="place-order-button" onClick={handlePlaceOrder}>Place Your Order</button>
+
                             </div>
+                            <div>
+                                <p>Order Total: ₹{totalPrice}</p>
+                                <p>By placing your order, you agree to Musicart privacy notice and conditions of use.</p>
+                            </div>
+                        </div>
 
-                            {selectedImageIndex === index && (
-                                <div className="product-info">
-                                    <p>{item.productId.name}</p>
-                                    <p>Company: {item.productId.company}</p>
-                                    <p>Price: {item.productId.price}</p>
-                                </div>
-                            )}
-                        </>
-                    ))}
+                    </div>
                 </div>
 
-                {/* <div>
-                    <button className="place-order-button" onClick={handlePlaceOrder}>Place Order</button>
-                    <span>Order Total: ₹{totalPrice}. By placing your order, you agree to Musicart privacy notice and conditions of use.</span>
-                </div> */}
-
-            </div>
-
-            <div className="right-container">
-                <div className="order-summary">
-                    <h3>Order Summary</h3>
-                    <p>Total Items: {cartItems.length}</p>
-                    <p>Total Amount: ₹{totalPrice}</p>
+                <div className="right-container">
+                    <button className="place-order-button" onClick={handlePlaceOrder}>Place Your Order</button>
+                    <p>By placing your order, you agree to Musicart privacy notice and conditions of use.</p>
+                    <div className="order-summary">
+                        <h3>Order Summary</h3>
+                        <p>Total Items: {cartItems.length}</p>
+                        <p>Total Amount: ₹{totalPrice}</p>
+                    </div>
                 </div>
-                <button className="place-order-button" onClick={handlePlaceOrder}>Place Order</button>
             </div>
-
         </div>
     );
 };

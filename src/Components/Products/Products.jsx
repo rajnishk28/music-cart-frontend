@@ -27,7 +27,13 @@ const Products = () => {
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  const Name = localStorage.getItem("name");
+  // let Name = localStorage.getItem("name");
+
+  let Name = localStorage.getItem("name");
+if (Name !== null) {
+    Name = Name.toUpperCase();
+}
+ 
 
 
 
@@ -62,7 +68,7 @@ const Products = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("name");
-    // navigate("/login");
+    navigate("/home");
     return;
   }
 
@@ -100,20 +106,20 @@ const Products = () => {
             </div>
             <div>Musicart </div>
 
-            <div className='curentPath'>{`${currentPath}`}</div>
+            <div className='curentPath'>
+              <Link to={"/home"}>Home</Link>
+            {token?  <Link to={"/invoice"}>invoice</Link>:null}
+            </div>
           </div>
 
-          {token ? <div className="rightHead">
+          {(token && Name) ? 
+          <div className="rightHead">
             <div className='cart-box'>
-
               <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
             </div>
-
             <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
-
               {Name.charAt(0)}
               {Name.split(' ').length > 1 && Name.split(' ')[Name.split(' ').length - 1].charAt(0)}
-
 
               <div className="hoverbox">
                 <div className="content">

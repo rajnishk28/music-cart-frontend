@@ -58,9 +58,16 @@ section {
     cursor: pointer;
     justify-content: center;
 }
-
+.curentPath a{
+    text-decoration: none;
+    margin-left: 10px;
+    color: black;
+}
 .profile.active .hoverbox {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
 }
 
 .hoverbox {

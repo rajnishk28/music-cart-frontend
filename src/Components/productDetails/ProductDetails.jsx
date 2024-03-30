@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
-import {useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../api';
 import "./productdetails.css";
 import Header from '../Header/Header';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ProductDetails = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
-    const navigate=useNavigate();
-    const token =localStorage.getItem("token");
-    
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,51 +28,55 @@ const ProductDetails = () => {
 
     const addToCart = async () => {
         try {
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
             if (!token) {
-                // Handle case when token is not available
+                
                 navigate("/login");
                 console.error('Token not found');
                 return;
             }
-            
+
             // Make API call to add item to cart
             const response = await axios.post(`${baseUrl}/cart/add`, {
                 productId: id,
-                quantity: 1, 
+                quantity: 1,
             }, {
                 headers: {
                     Authorization: `${token}`,
                 },
             });
-            
-            // Handle response as needed
-            console.log('Item added to cart:', response.data);
+
+            toast.success('Item added to cart:')
+          
         } catch (error) {
             console.error('Error adding item to cart:', error);
         }
     };
-const handleGoBack =()=>{
-    navigate("/home")
-}
+    const buyNow = async () => {
+        await addToCart();
+        toast.success('Item added to cart:')
+        navigate("/cart");
+    }
+  
     return (
         <>
-            <Nav className="Navbar"/>
-            <Header className="Header-container"/>
-            <section>
+            <Toaster />
+            <Nav className="Navbar" />
+            <Header className="Header-container" product={product}/>
+            <section className='product-deatils'>
 
-                <button className='back-button' onClick={handleGoBack}>Back to products</button>
+                <Link to={"/home"} className='back-button'>Back to products</Link>
 
                 <div className="product-details-container">
 
                     <div className="product-images-container">
                         <div className="product-img">
 
-                        {product && (
-                            <img src={product.imageUrl}  />
-                        )}
+                            {product && (
+                                <img src={product.imageUrl} />
+                            )}
                         </div>
-                        
+
                     </div>
 
                     <div className="product-description">
@@ -93,7 +98,7 @@ const handleGoBack =()=>{
                                 <p> Brand- {product.company}</p>
                                 <div className="action-buttons">
                                     <button className="add-to-cart-btn" onClick={addToCart}>Add to Cart</button>
-                                    <button className="buy-now-btn">Buy Now</button>
+                                    <button className="buy-now-btn" onClick={buyNow}>Buy Now</button>
                                 </div>
                             </>
                         )}
