@@ -58,11 +58,13 @@ section {
     cursor: pointer;
     justify-content: center;
 }
-.curentPath a{
+
+.curentPath a {
     text-decoration: none;
     margin-left: 10px;
     color: black;
 }
+
 .profile.active .hoverbox {
     display: flex;
     align-items: center;
@@ -165,25 +167,40 @@ section {
 .search-box select {
     max-width: 100%;
     width: 200px;
-    /* Adjust width as needed */
 }
+/* section2 ends */
 
+/* all button css */
 .all-buttons {
     display: flex;
     align-items: center;
     height: 90px;
-    justify-content: space-between;
-   overflow: auto;
+    justify-content: space-around;
+    overflow-x: auto; 
 }
+
+
 
 .button-box select {
     background-color: #D9D9D9;
-    width: 200px;
-    border-radius: 34px;
+    width: 140px;
+    border-radius: 20px;
     height: 30px;
+    margin-right: 10px; /* Add margin between button boxes */
 }
 
-/* section2 ends */
+.sorting select {
+    width: auto;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    height: 30px;
+    flex: 1;
+    width: 190px;
+}
+
+/* all button css */
+
+
 
 /* section3 */
 /* grid view start here */
@@ -215,35 +232,47 @@ section {
     max-width: 250px;
     height: 300px;
 }
+
 .loading {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; /* Adjust height as needed */
-  }
-  
-  .loading::after {
+    height: 100px;
+    /* Adjust height as needed */
+}
+
+.loading::after {
     content: '';
-    width: 40px; /* Width of the spinner */
-    height: 40px; /* Height of the spinner */
-    border: 4px solid #f3f3f3; /* Light grey border */
-    border-top: 4px solid #3498db; /* Blue border on top */
+    width: 40px;
+    /* Width of the spinner */
+    height: 40px;
+    /* Height of the spinner */
+    border: 4px solid #f3f3f3;
+    /* Light grey border */
+    border-top: 4px solid #3498db;
+    /* Blue border on top */
     border-radius: 50%;
-    animation: spin 1s linear infinite; /* Spin animation */
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
+    animation: spin 1s linear infinite;
+    /* Spin animation */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /* grid view end here */
 
-.cart-icon-image{
+.cart-icon-image {
     position: relative;
     bottom: 64px;
     float: right;
-    padding:15px;
+    padding: 15px;
     color: #1D7000;
     margin-right: 10px;
     background-color: #FFFFFF;
@@ -271,14 +300,14 @@ section {
 }
 
 
-.listimage img{
+.listimage img {
     width: 350px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 300px;
     object-fit: cover;
-  padding: 10px;
+    padding: 10px;
 }
 
 .view-button {
@@ -395,7 +424,7 @@ textarea {
 
     .banner-image {
         display: none;
-        /* Hide the banner image on smaller screens */
+        
     }
 
     .all-buttons {

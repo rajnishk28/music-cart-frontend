@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./product.css"
-import Nav from '../Nav/Nav'
 import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import baseUrl from "../../api"
+import toast, { Toaster } from 'react-hot-toast';
 import Header from '../Header/Header';
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -22,19 +23,16 @@ const Products = () => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [feedbackType, setFeedbackType] = useState("");
   const [message, setMessage] = useState("");
-  const currentPath = window.location.pathname;
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  // let Name = localStorage.getItem("name");
-
-  let Name = localStorage.getItem("name");
-if (Name !== null) {
-    Name = Name.toUpperCase();
-}
  
 
+  let Name = localStorage.getItem("name");
+  if (Name !== null) {
+    Name = Name.toUpperCase();
+  }
 
 
   useEffect(() => {
@@ -48,7 +46,6 @@ if (Name !== null) {
 
   const toggleLayout = (layoutType) => {
     setLayout(layoutType);
-    // console.log(layoutType);
   };
 
   const handleSearch = (e) => {
@@ -95,10 +92,39 @@ if (Name !== null) {
     }
   };
 
+
+  const addToCart = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            
+            navigate("/login");
+            console.error('Token not found');
+            return;
+        }
+
+        // Make API call to add item to cart
+        const response = await axios.post(`${baseUrl}/cart/add`, {
+            productId: id,
+            quantity: 1,
+        }, {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+
+        toast.success('Item added to cart:')
+      
+    } catch (error) {
+        console.error('Error adding item to cart:', error);
+    }
+};
+
   return (
     <>
-      {/* <Header /> */}
-      <section className='section-head'>
+      <Toaster />
+      <Header/>
+      {/* <section className='section-head'>
         <div className='Head'>
           <div className='Head-content'>
             <div>
@@ -108,34 +134,34 @@ if (Name !== null) {
 
             <div className='curentPath'>
               <Link to={"/home"}>Home</Link>
-            {token?  <Link to={"/invoice"}>invoice</Link>:null}
+              {token ? <Link to={"/invoice"}>invoice</Link> : null}
             </div>
           </div>
 
-          {(token && Name) ? 
-          <div className="rightHead">
-            <div className='cart-box'>
-              <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
-            </div>
-            <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
-              {Name.charAt(0)}
-              {Name.split(' ').length > 1 && Name.split(' ')[Name.split(' ').length - 1].charAt(0)}
+          {(token && Name) ?
+            <div className="rightHead">
+              <div className='cart-box'>
+                <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
+              </div>
+              <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
+                {Name.charAt(0)}
+                {Name.split(' ').length > 1 && Name.split(' ')[Name.split(' ').length - 1].charAt(0)}
 
-              <div className="hoverbox">
-                <div className="content">
-                  <div>{Name}</div>
-                  <div onClick={HandleLogout}>
-                    Logout
+                <div className="hoverbox">
+                  <div className="content">
+                    <div>{Name}</div>
+                    <div onClick={HandleLogout}>
+                      Logout
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div> : null}
+            </div> : null}
 
         </div>
 
-      </section>
+      </section> */}
 
       <section>
         <div className='banner'>
@@ -149,13 +175,16 @@ if (Name !== null) {
 
       {/* section 2 starts here */}
       <section>
+
         <div className='section-2'>
           <div className='search-box'>
             <img src="src\assets\search.png" alt="" />
             <input type="text" placeholder='Search by Product Name' onChange={handleSearch} />
           </div>
-
+          {/* all button start here */}
           <div className='all-buttons'>
+
+
             <div className='button-box' onClick={() => toggleLayout('grid')}>
               <span className='grid-list-button'>
                 <img src="src\assets\gridButton.png" />
@@ -168,6 +197,8 @@ if (Name !== null) {
                 {/* list */}
               </span>
             </div>
+
+
             <div className='button-box headphone'>
               <select onChange={(e) => { setHeadPhoneType(e.target.value) }}>
                 <option value="">Headphone type</option>
@@ -176,6 +207,7 @@ if (Name !== null) {
                 <option value="Over-ear">Over-ear headphone</option>
               </select>
             </div>
+
             <div className='button-box comapny'>
               <select onChange={(e) => { setCompanyType(e.target.value) }}>
                 <option value="">Company</option>
@@ -187,6 +219,7 @@ if (Name !== null) {
                 <option value="lg">Lg</option>
               </select>
             </div>
+
             <div className='button-box color'>
               <select onChange={(e) => { setColorType(e.target.value) }} >
                 <option value="">Colour</option>
@@ -199,6 +232,7 @@ if (Name !== null) {
                 <option value="brown">Brown</option>
               </select>
             </div>
+
             <div className='button-box price'>
               <select onChange={(e) => { setPrice(e.target.value) }}>
                 <option value="">Price</option>
@@ -207,7 +241,8 @@ if (Name !== null) {
                 <option value="₹10,000 - ₹20,000">₹10,000 - ₹20,000</option>
               </select>
             </div>
-            <div className='button-box'>
+
+            <div className='button-box sorting'>
               <select onChange={(e) => { SetsortBy(e.target.value) }}>
                 <option value="">Sort by : Featured</option>
                 <option value="lowestPrice">Price : Lowest</option>
@@ -217,10 +252,11 @@ if (Name !== null) {
               </select>
             </div>
           </div>
+          {/* all button end here */}
         </div>
       </section>
       {/* section 2 Ends here */}
-      
+
       {products.length === 0 ? (
         <div className="loading"></div>
       ) : (
@@ -231,7 +267,7 @@ if (Name !== null) {
               <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
                 <div className="listimage">
                   <img src={product.imageUrl} alt="#" onClick={() => handleNavigate(product._id)} />
-                  <div className='cart-icon-image'>
+                  <div className='cart-icon-image' onClick={()=>{addToCart(product._id)}}>
                     <FontAwesomeIcon icon={faShoppingCart} />
                   </div>
                 </div>
@@ -252,34 +288,37 @@ if (Name !== null) {
 
       )}
 
+     {!token ? null :
       <div className="feedback-container">
-        <div className="feedback-icon" onClick={toggleFeedbackForm}>
-          <FontAwesomeIcon icon={faQuestionCircle} size='3x' />
+      <div className="feedback-icon" onClick={toggleFeedbackForm}>
+        <FontAwesomeIcon icon={faQuestionCircle} size='3x' />
+      </div>
+
+      {showFeedbackForm && (
+        <div className="feedback-form">
+          <h1>Type of feedback</h1>
+          <div className='select-option'>
+            <select defaultValue="choose" onChange={(e) => setFeedbackType(e.target.value)}>
+              <option disabled value="choose">Choose the type</option>
+              <option value="bugs">Bugs</option>
+              <option value="feedback">Feedback</option>
+              <option value="query">Query</option>
+            </select>
+          </div>
+          <div>
+            <textarea placeholder='Enter your feedback...' rows="4" cols="50"
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <div className="btn">
+            <button onClick={handleFeedBacksubmit}>Submit</button>
+          </div>
         </div>
 
-        {showFeedbackForm && (
-          <div className="feedback-form">
-            <h1>Type of feedback</h1>
-            <div className='select-option'>
-              <select defaultValue="choose" onChange={(e) => setFeedbackType(e.target.value)}>
-                <option disabled value="choose">Choose the type</option>
-                <option value="bugs">Bugs</option>
-                <option value="feedback">Feedback</option>
-                <option value="query">Query</option>
-              </select>
-            </div>
-            <div>
-              <textarea placeholder='Enter your feedback...' rows="4" cols="50"
-                onChange={(e) => setMessage(e.target.value)}
-              />
-            </div>
-            <div className="btn">
-              <button onClick={handleFeedBacksubmit}>Submit</button>
-            </div>
-          </div>
+      )}
+    </div>
 
-        )}
-      </div>
+     }
     </>
   )
 }

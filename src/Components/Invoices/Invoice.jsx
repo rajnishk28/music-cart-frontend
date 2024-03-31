@@ -33,16 +33,16 @@ const Invoice = () => {
         fetchInvoices();
     }, []);
 
+    if (invoices.length === 0) {
+        return <div className="cart-container">No items in Invoice</div>;
+    }
+
     return (
         <>
             <Link to={"/home"} className='back-button'>Back to Home</Link>
 
             <div className="invoices-container">
                 <h2>My Invoices</h2>
-
-                {invoices.length === 0 ? (
-                    <div>No invoices found</div>
-                ) : (
                     <div className="invoice-list">
                         {invoices.map((invoice, index) => (
                             <>
@@ -55,7 +55,7 @@ const Invoice = () => {
                                     </div>
                                 </div>
                                 <div className='right-invoice'>
-                                    <Link to={`/test/${invoice._id}`} className="back-button">
+                                    <Link to={`/invoice/${invoice._id}`} className="back-button">
                                         View Invoice
                                     </Link>
                                 </div>
@@ -64,7 +64,6 @@ const Invoice = () => {
                                 </>
                         ))}
                     </div>
-                )}
             </div>
         </>
     );

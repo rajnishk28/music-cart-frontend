@@ -68,9 +68,13 @@ const Cart = () => {
         setTotalPrice(total);
     };
 
+    if (cartItems.length === 0) {
+        return <div className="cart-container">No items in cart</div>;
+    }
+
     return (
         <>
-
+          <Link to={"/home"} className='back-button'>Back to products</Link>
             <div className="cart-container">
                 <div className="left-cart-container">
                     <h2 className="cart-title">Cart Items</h2>

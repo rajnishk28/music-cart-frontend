@@ -1,70 +1,83 @@
-nav{
-    max-width: 1728px;
-    height: 63px;
-    background-color: #2E0052;
-}
-.nav-container{
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 20px;
-}
-.nav-img{
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-}
-.login-signup{
-   text-decoration: none;
-    margin: 3px;
+/* Define styles for the navigation bar */
+nav {
+  max-width: 1728px;
+  height: 63px;
+  background-color: #2E0052;
 }
 
-.nav-item{
-    color: #FFFFFF;
+/* Style for the navigation container */
+.nav-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 20px;
 }
 
-.bottom-nav-icons{
-    display: none;
+/* Style for the navigation image */
+.nav-img {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
 }
-.logout{
+
+/* Style for login and signup links */
+.login-signup {
+  text-decoration: none;
+  margin: 3px;
+}
+
+/* Style for navigation items */
+.nav-item {
+  color: #FFFFFF;
+}
+
+/* Hide the bottom navigation icons by default */
+.bottom-nav-icons {
+  display: none;
+}
+
+/* Style for logout link */
+.logout {
   cursor: pointer;
 }
 
-/* .nav-item:not(.signup-login-container) {
-    flex:1;
-} */
-
-
-
-
+/* Media query for smaller screens */
 @media (max-width: 768px) {
-    .nav-container {
-      display: none;
-    }
-
-    /* Show the bottom navigation */
-    .bottom-nav-icons{
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 63px;
-      background-color: #FFFFFF;
-      
-      z-index: 9999; 
-    }
-  
-    /* Style for bottom navigation icons */
-    .bottom-nav-icons a {
-      color: #2E0052;
-      text-decoration: none;
-      font-size: 24px;
-    }
+  /* Display the bottom navigation when on smaller screens */
+  .bottom-nav-icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 63px;
+    background-color: #FFFFFF;
+    z-index: 9999;
   }
-  
- 
-  
+
+  /* Style for bottom navigation icons */
+  .bottom-nav-icons a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #2E0052;
+    text-decoration: none;
+    font-size: 24px;
+    position: relative; /* Make sure the anchor tags are positioned */
+  }
+
+  /* Style for line above active icon */
+  .bottom-nav-icons a.active::before {
+    content: '';
+    position: absolute;
+    width: 100%; /* Full width */
+    height: 2px; /* Height of the line */
+    background-color: #2E0052; /* Color of the line */
+    top: -4px; /* Position the line above the icon */
+    left: 0; /* Start from the left */
+  }
+}

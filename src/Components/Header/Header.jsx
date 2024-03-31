@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import "./header.css"
 import baseUrl from '../../api';
 import axios from 'axios';
 
 const Header = () => {
     const [profileVisible, setProfileVisible] = useState(false);
-    const currentPath = window.location.pathname;
-
+    const [cartItemCount, setCartItemCount] = useState(0);
+    let currentPath = window.location.pathname.split('/')[1];
     const token = localStorage.getItem("token");
+   
 
     const toggleProfile = () => {
         setProfileVisible(!profileVisible);
     };
 
-    const [cartItemCount, setCartItemCount] = useState(0);
 
     useEffect(() => {
         axios.get(`${baseUrl}/cart/count`, {
@@ -39,12 +40,17 @@ const Header = () => {
                         </div>
                         <div>Musicart </div>
 
-                        <div className='curentPath'>{`${currentPath}`}</div>
+                        <div className='curentPath'>{`${currentPath}`}
+                        
+                        {(token && currentPath == "home") ? <Link to={"/invoice"}>invoice</Link> : null}
+                        </div>
+
+                        
                     </div>
 
                     <div className="rightHead">
                         <div className='cart-box'>
-                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart{cartItemCount}</a>
+                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
                         </div>
 
 
