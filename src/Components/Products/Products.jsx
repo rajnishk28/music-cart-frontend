@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState} from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./product.css"
 import axios from 'axios'
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import baseUrl from "../../api"
 import toast, { Toaster } from 'react-hot-toast';
-import Header from '../Header/Header';
 
 
 const Products = () => {
@@ -23,6 +21,7 @@ const Products = () => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [feedbackType, setFeedbackType] = useState("");
   const [message, setMessage] = useState("");
+  const [cartItemCount, setCartItemCount] = useState(0);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -97,7 +96,6 @@ const Products = () => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            
             navigate("/login");
             console.error('Token not found');
             return;
@@ -113,18 +111,33 @@ const Products = () => {
             },
         });
 
-        toast.success('Item added to cart:')
+        // Update cart count
+        setCartItemCount(prevCount => prevCount + 1);
+
+        toast.success('Item added to cart:');
       
     } catch (error) {
         console.error('Error adding item to cart:', error);
     }
 };
 
+
+useEffect(() => {
+  axios.get(`${baseUrl}/cart/count`, {
+      headers: {
+          Authorization: `${token}`,
+      },
+  }).then((response) => {
+      // console.log(response)
+      setCartItemCount(response.data.count);
+  })
+}, [cartItemCount]);
+
   return (
     <>
       <Toaster />
-      <Header/>
-      {/* <section className='section-head'>
+     
+      <section className='section-head'>
         <div className='Head'>
           <div className='Head-content'>
             <div>
@@ -141,7 +154,7 @@ const Products = () => {
           {(token && Name) ?
             <div className="rightHead">
               <div className='cart-box'>
-                <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart</a>
+                <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
               </div>
               <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
                 {Name.charAt(0)}
@@ -161,7 +174,7 @@ const Products = () => {
 
         </div>
 
-      </section> */}
+      </section>
 
       <section>
         <div className='banner'>
