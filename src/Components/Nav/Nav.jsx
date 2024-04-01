@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faShoppingCart, faUser, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 import "./Nav.css";
 import image1 from "../../assets/Vector.png";
+import baseUrl from '../../api';
+import axios from 'axios';
 
 const Nav = () => {
   const token = localStorage.getItem("token");
+  const [cartItemCount, setCartItemCount] = useState(0);
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState('home');
 
@@ -20,6 +23,18 @@ const Nav = () => {
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
   };
+
+  useEffect(() => {
+    axios.get(`${baseUrl}/cart/count`, {
+        headers: {
+            Authorization: `${token}`,
+        },
+    }).then((response) => {
+        // console.log(response)
+        setCartItemCount(response.data.count);
+    })
+}, [cartItemCount]);
+
 
   return (
     <>
@@ -46,7 +61,7 @@ const Nav = () => {
       {/* Bottom Navigation Icons */}
       <div className="bottom-nav-icons">
         <Link to="/home" onClick={() => handleItemClick('home')} className={activeItem === 'home' ? 'active' : ''}><FontAwesomeIcon icon={faHome} /> Home</Link>
-        <Link to="/cart" onClick={() => handleItemClick('cart')} className={activeItem === 'cart' ? 'active' : ''}><FontAwesomeIcon icon={faShoppingCart} />Cart</Link>
+        <Link to="/cart" onClick={() => handleItemClick('cart')} className={activeItem === 'cart' ? 'active' : ''}><FontAwesomeIcon icon={faShoppingCart} />Cart {cartItemCount}</Link>
         <Link to="/invoice" onClick={() => handleItemClick('invoice')} className={activeItem === 'invoice' ? 'active' : ''}><FontAwesomeIcon icon={faFileInvoice} />Invoice</Link>
         {!token ? <Link to="/login" onClick={() => handleItemClick('profile')} className={activeItem === 'profile' ? 'active' : ''}><FontAwesomeIcon icon={faUser} />
           Login
