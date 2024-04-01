@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast, { Toaster } from 'react-hot-toast';
+import image5 from "../../assets/image 4.png";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -87,7 +88,7 @@ const ProductDetails = () => {
                     <div className='Head'>
                         <div className='Head-content'>
                             <div>
-                                <img src="src/assets/image 4.png" alt="" />
+                                <img src={image5} alt="" />
                             </div>
                             <div>Musicart </div>
 
@@ -101,7 +102,7 @@ const ProductDetails = () => {
 
                         <div className="rightHead">
                             <div className='cart-box'>
-                                <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
+                                <Link to={"/cart"}> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</Link>
                             </div>
 
 
