@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../api';
 import './login.css';
+import image5 from "../../assets/image 4.png";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -53,7 +54,7 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className='login-heading'>
-                <img src="src/assets/image 4.png" alt="Icon" />
+                <img src={image5} alt="Icon" />
                 <h3>Musicart</h3>
             </div>
 

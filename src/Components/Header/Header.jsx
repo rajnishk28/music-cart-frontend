@@ -51,7 +51,7 @@ const Header = () => {
 
                     <div className="rightHead">
                         <div className='cart-box'>
-                            <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
+                            <Link to={"/cart"}> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</Link>
                         </div>
 
 

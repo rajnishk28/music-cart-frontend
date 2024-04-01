@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './signup.css';
 import baseUrl from "../../api";
+import image5 from "../../assets/image 4.png";
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -43,7 +44,7 @@ const Signup = () => {
     return (
         <>
             <div className='login-heading'>
-                <img src="src/assets/image 4.png" alt="Icon" />
+                <img src={image5} alt="Icon" />
                 <h3>Musicart</h3>
             </div>
             <div className="signup-container">
