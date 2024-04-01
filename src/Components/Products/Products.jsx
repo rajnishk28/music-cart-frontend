@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import image1 from "../../assets/bannerimg.png"
+import image2 from "../../assets/listButton.png"
+import image3 from "../../assets/gridButton.png"
 import "./product.css"
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
@@ -163,7 +166,7 @@ const Products = () => {
           {(token && Name) ?
             <div className="rightHead">
               <div className='cart-box'>
-                <a href="/cart">  <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
+                <Link to={"/cart"}>  <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</Link>
               </div>
               <div className={`profile ${profileVisible ? 'active' : ''}`} onClick={toggleProfile}>
                 {Name.charAt(0)}
@@ -194,7 +197,7 @@ const Products = () => {
         <div className='banner'>
           <div className='banner-content'>
             <p>Grab upto 50% off on Selected headphones</p>
-            <img className='banner-image' src="src\assets\bannerimg.png" alt="" />
+            <img className='banner-image' src={image1} alt="" />
           </div>
         </div>
 
@@ -214,13 +217,13 @@ const Products = () => {
 
             <div className='button-box' onClick={() => toggleLayout('grid')}>
               <span className={layout=="grid" ? 'grid-button':null}>
-                <img src="src\assets\gridButton.png" />
+                <img src={image3} />
 
               </span>
             </div>
             <div className='button-box' onClick={() => toggleLayout('list')}>
               <span className={layout=="list" ? 'list-button':null}>
-                <img src="src\assets\listButton.png" />
+                <img src={image2} />
                 {/* list */}
               </span>
             </div>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import "./header.css"
 import baseUrl from '../../api';
 import axios from 'axios';
+import image4 from "../../assets/image 4.png"
 
 const Header = () => {
     const [profileVisible, setProfileVisible] = useState(false);
@@ -36,7 +37,7 @@ const Header = () => {
                 <div className='Head'>
                     <div className='Head-content'>
                         <div>
-                            <img src="src/assets/image 4.png" alt="" />
+                            <img src={image4} alt="" />
                         </div>
                         <div>Musicart </div>
 
