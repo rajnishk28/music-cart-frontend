@@ -5,6 +5,8 @@ import axios from 'axios';
 import baseUrl from '../../api';
 import "./productdetails.css";
 import Header from '../Header/Header';
+import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast, { Toaster } from 'react-hot-toast';
 
 const ProductDetails = () => {
@@ -12,6 +14,8 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const [cartItemCount, setCartItemCount] = useState(0);
+    let currentPath = window.location.pathname.split('/')[1];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,11 +30,23 @@ const ProductDetails = () => {
         fetchData();
     }, [id]);
 
+    useEffect(() => {
+        if (token) {
+            axios.get(`${baseUrl}/cart/count`, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            }).then((response) => {
+                setCartItemCount(response.data.count);
+            }).catch((error) => {
+                console.error('Error fetching cart count:', error);
+            });
+        }
+    }, [token]);
+
     const addToCart = async () => {
         try {
-            const token = localStorage.getItem('token');
             if (!token) {
-                
                 navigate("/login");
                 console.error('Token not found');
                 return;
@@ -46,23 +62,55 @@ const ProductDetails = () => {
                 },
             });
 
+            // Update cart count
+            setCartItemCount(prevCount => prevCount + 1);
+
             toast.success('Item added to cart:')
-          
+
         } catch (error) {
             console.error('Error adding item to cart:', error);
         }
     };
+
     const buyNow = async () => {
         await addToCart();
         toast.success('Item added to cart:')
         navigate("/cart");
     }
-  
+
     return (
         <>
             <Toaster />
             <Nav className="Navbar" />
-            <Header className="Header-container" product={product}/>
+            <div className='header'>
+                <section>
+                    <div className='Head'>
+                        <div className='Head-content'>
+                            <div>
+                                <img src="src/assets/image 4.png" alt="" />
+                            </div>
+                            <div>Musicart </div>
+
+                            <div className='curentPath'>{`${currentPath}`}
+
+                                {(token && currentPath == "home") ? <Link to={"/invoice"}>invoice</Link> : null}
+                            </div>
+
+
+                        </div>
+
+                        <div className="rightHead">
+                            <div className='cart-box'>
+                                <a href="/cart"> <FontAwesomeIcon icon={faShoppingCart} />View Cart {cartItemCount}</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+
             <section className='product-deatils'>
 
                 <Link to={"/home"} className='back-button'>Back to products</Link>

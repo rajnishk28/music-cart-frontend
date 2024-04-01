@@ -99,6 +99,7 @@ const CheckOut = () => {
             </div>
 
             <div className='checkout-heading'>Checkout</div>
+
             <div className="checkout-container">
                 <div className="left-container">
                     <div className="address-container">
@@ -130,14 +131,26 @@ const CheckOut = () => {
                         <div className="cart-header">
                             <h3>3.Review items and delivery</h3>
                         </div>
+
                         <div className="cart-image-body">
                             {cartItems.map((item, index) => (
+                                
                                 <div key={index}
                                     className="product-image-container"
                                     onClick={() => setSelectedImageIndex(index)}
                                 >
                                     <img src={item.productId.imageUrl} alt="Product" />
-                                    <div className="product-info">
+                                    </div>   
+                               
+                            ))}
+
+                            {
+                                cartItems.map((item, index) => (
+                                    
+                                    <div key={index}
+                                        onClick={() => setSelectedImageIndex(index)}
+                                    >
+                                         <div className="product-info">
                                         {selectedImageIndex === index && (
                                             <div className="product-info-data">
                                                 <p>{item.productId.company} {item.productId.name}</p>
@@ -145,10 +158,11 @@ const CheckOut = () => {
                                             </div>
                                         )}
                                     </div>
-                                </div>
+                                        </div>
                             ))}
                         </div>
                     </div>
+
                     <div className="left-order-button">
                         <div className="order-content">
                             <div className="btn">

@@ -1,4 +1,4 @@
-import React, { useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./product.css"
@@ -22,11 +22,12 @@ const Products = () => {
   const [feedbackType, setFeedbackType] = useState("");
   const [message, setMessage] = useState("");
   const [cartItemCount, setCartItemCount] = useState(0);
+  const[error,setError]=useState("")
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
- 
+
 
   let Name = localStorage.getItem("name");
   if (Name !== null) {
@@ -73,8 +74,11 @@ const Products = () => {
   };
 
   const handleFeedBacksubmit = async () => {
-    // console.log(feedbackType, message);
-
+    if(feedbackType === "" || message === "") {
+      setError("Please fill all the fields")
+      return;
+    }
+  
     try {
       const response = await axios.post(
         `${baseUrl}/feedback/create`,
@@ -85,58 +89,63 @@ const Products = () => {
           },
         }
       );
-      console.log(response.data);
+      toast.success("Feedback saved successfully");
+      
+      setShowFeedbackForm(false)
+      
     } catch (error) {
       console.error(error);
     }
   };
+  
+  
 
 
   const addToCart = async (id) => {
     try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate("/login");
-            console.error('Token not found');
-            return;
-        }
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate("/login");
+        console.error('Token not found');
+        return;
+      }
 
-        // Make API call to add item to cart
-        const response = await axios.post(`${baseUrl}/cart/add`, {
-            productId: id,
-            quantity: 1,
-        }, {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
-
-        // Update cart count
-        setCartItemCount(prevCount => prevCount + 1);
-
-        toast.success('Item added to cart:');
-      
-    } catch (error) {
-        console.error('Error adding item to cart:', error);
-    }
-};
-
-
-useEffect(() => {
-  axios.get(`${baseUrl}/cart/count`, {
-      headers: {
+      // Make API call to add item to cart
+      const response = await axios.post(`${baseUrl}/cart/add`, {
+        productId: id,
+        quantity: 1,
+      }, {
+        headers: {
           Authorization: `${token}`,
+        },
+      });
+
+      // Update cart count
+      setCartItemCount(prevCount => prevCount + 1);
+
+      toast.success('Item added to cart:');
+
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    axios.get(`${baseUrl}/cart/count`, {
+      headers: {
+        Authorization: `${token}`,
       },
-  }).then((response) => {
+    }).then((response) => {
       // console.log(response)
       setCartItemCount(response.data.count);
-  })
-}, [cartItemCount]);
+    })
+  }, [cartItemCount]);
 
   return (
     <>
       <Toaster />
-     
+
       <section className='section-head'>
         <div className='Head'>
           <div className='Head-content'>
@@ -176,6 +185,11 @@ useEffect(() => {
 
       </section>
 
+      <div className='above-banner search-box'>
+        <img src="src\assets\search.png" alt="" />
+        <input type="text" placeholder='Search by Product Name' onChange={handleSearch} />
+      </div>
+
       <section>
         <div className='banner'>
           <div className='banner-content'>
@@ -199,13 +213,13 @@ useEffect(() => {
 
 
             <div className='button-box' onClick={() => toggleLayout('grid')}>
-              <span className='grid-list-button'>
+              <span className={layout=="grid" ? 'grid-button':null}>
                 <img src="src\assets\gridButton.png" />
 
               </span>
             </div>
             <div className='button-box' onClick={() => toggleLayout('list')}>
-              <span className='grid-list-button' >
+              <span className={layout=="list" ? 'list-button':null}>
                 <img src="src\assets\listButton.png" />
                 {/* list */}
               </span>
@@ -280,14 +294,13 @@ useEffect(() => {
               <div className={`${layout === 'grid' ? 'grid-item' : 'list-item'}`} key={product._id}>
                 <div className="listimage">
                   <img src={product.imageUrl} alt="#" onClick={() => handleNavigate(product._id)} />
-                  <div className='cart-icon-image' onClick={()=>{addToCart(product._id)}}>
+                  <div className='cart-icon-image' onClick={() => { addToCart(product._id) }}>
                     <FontAwesomeIcon icon={faShoppingCart} />
                   </div>
                 </div>
-                <div>
-
+                <div className={`${layout === 'grid' ? 'grid-description' : 'list-description'}`}>
                   <p className='list-title'> <strong>{product.company} {product.name}</strong> </p>
-                  {layout === 'list' ? <p className='list-description'>{product.description}</p> : null}
+                  {layout === 'list' ? <p>{product.description}</p> : null}
                   <span className='list-price'>Price - {product.price}</span>
                   <p className='list-category'>{product.color} | {product.headphone_type}</p>
 
@@ -301,37 +314,39 @@ useEffect(() => {
 
       )}
 
-     {!token ? null :
-      <div className="feedback-container">
-      <div className="feedback-icon" onClick={toggleFeedbackForm}>
-        <FontAwesomeIcon icon={faQuestionCircle} size='3x' />
-      </div>
+      {!token ? null :
+        <div className="feedback-container">
+          <div className="feedback-icon" onClick={toggleFeedbackForm}>
+            <FontAwesomeIcon icon={faQuestionCircle} size='3x' />
+          </div>
 
-      {showFeedbackForm && (
-        <div className="feedback-form">
-          <h1>Type of feedback</h1>
-          <div className='select-option'>
-            <select defaultValue="choose" onChange={(e) => setFeedbackType(e.target.value)}>
-              <option disabled value="choose">Choose the type</option>
-              <option value="bugs">Bugs</option>
-              <option value="feedback">Feedback</option>
-              <option value="query">Query</option>
-            </select>
-          </div>
-          <div>
-            <textarea placeholder='Enter your feedback...' rows="4" cols="50"
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </div>
-          <div className="btn">
-            <button onClick={handleFeedBacksubmit}>Submit</button>
-          </div>
+          {showFeedbackForm && (
+            <div className="feedback-form">
+              <h1>Type of feedback</h1>
+              <div className='select-option'>
+                <select defaultValue="choose" onChange={(e) => setFeedbackType(e.target.value)}>
+                  <option disabled value="choose">Choose the type</option>
+                  <option value="bugs">Bugs</option>
+                  <option value="feedback">Feedback</option>
+                  <option value="query">Query</option>
+                </select>
+              </div>
+              <div>
+                <textarea placeholder='Enter your feedback...' rows="4" cols="50"
+                  onChange={(e) => setMessage(e.target.value)}
+                  
+                />
+              </div>
+              <div className="btn">
+              {error && <div className="error">{error}</div>}
+                <button onClick={handleFeedBacksubmit}>Submit</button>
+              </div>
+            </div>
+
+          )}
         </div>
 
-      )}
-    </div>
-
-     }
+      }
     </>
   )
 }

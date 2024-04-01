@@ -111,3 +111,25 @@
 .quantity select {
     transition: border-color 0.3s;
 }
+
+@media screen and (max-width: 768px) {
+    .cart-container {
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-around; 
+        align-items: flex-start; 
+        width: 100%;
+        margin-bottom: 80px;
+    }
+
+    .left-cart {
+        max-height: none; 
+        overflow-y: visible; 
+        padding-right: 0; 
+    }
+
+    .right-cart {
+        width: 100%; /* Reset width to 30% for larger screens */
+        margin-top: 50px; /* Remove margin top for larger screens */
+    }
+}

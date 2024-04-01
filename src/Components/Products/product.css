@@ -143,6 +143,9 @@ section {
 }
 
 /* Section 2 */
+.above-banner{
+    display: none;
+}
 .search-box {
     position: relative;
 
@@ -216,6 +219,16 @@ section {
     width: 51px;
     height: 51px;
 }
+.grid-button img{
+    background-color: black;
+    border-radius: 15px;
+    
+}
+.list-button img{
+    background-color: black;
+    border-radius: 15px;
+    object-fit: cover;
+}
 
 .grid-item {
     width: 250px;
@@ -224,6 +237,9 @@ section {
     align-items: center;
     border: 2px solid #fff;
     margin: 10px;
+}
+.grid-description{
+    margin-top: -22px;
 }
 
 .grid-item img {
@@ -290,15 +306,28 @@ section {
 }
 
 .list-item {
-    /* width: 250px; */
+    
     display: flex;
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
     justify-content: space-between;
     border: 2px solid #fff;
     margin: 10px;
+    gap: 50px;
+    
 }
 
+.list-description{
+    margin-top: 20px;
+   
+
+}
+.list-description p{
+    margin-top:8px;
+    font-family: "Roboto",'Courier New', Courier, monospace;
+    font-weight: 500;
+
+}
 
 .listimage img {
     width: 350px;
@@ -320,6 +349,7 @@ section {
     justify-content: center;
     color: #FFFFFF;
     cursor: pointer;
+    margin-top: 20px;
 
 }
 
@@ -352,14 +382,13 @@ section {
 .feedback-form {
     position: absolute;
     bottom: 60px;
-    /* Adjust as needed */
     right: 40px;
     background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
     border-radius: 10px;
     padding: 10px;
     width: 300px;
-    height: 300px;
+    height: 330px;
     z-index: 1000;
 
 }
@@ -412,9 +441,30 @@ textarea {
     nav {
         display: none;
     }
+    .section-2 .search-box{
+        display: none;
+    }
+    .above-banner{
+        display: block;
+        background-color: #2E0052;
+        padding: 20px;
+        position: fixed;
+        right: 0;
+        left: 0;
+        top: 0;
+        z-index: 10000;
+    }
+
+    .above-banner input{
+       border-radius: 15px;
+    }
 
     .section-head {
         display: none;
+    }
+
+    .banner{
+        margin-top: 150px;
     }
 
     .banner-content p {

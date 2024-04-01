@@ -88,15 +88,25 @@ const InvoiceDetails = () => {
                             {invoice.items.map((item, index) => (
                                 <div key={index} className="product-image-container" onClick={() => setSelectedImageIndex(index)}>
                                     <img src={item.productId.imageUrl} alt="Product" />
-                                    <div className="product-info">
+                                   
+                                </div>
+                            ))}
+
+{
+                                invoice.items.map((item, index) => (
+                                    
+                                    <div key={index}
+                                        onClick={() => setSelectedImageIndex(index)}
+                                    >
+                                         <div className="product-info">
                                         {selectedImageIndex === index && (
                                             <div className="product-info-data">
                                                 <p>{item.productId.company} {item.productId.name}</p>
-                                                <p>Color: {item.productId.color}</p>
+                                                <p>Colour {item.productId.color}</p>
                                             </div>
                                         )}
                                     </div>
-                                </div>
+                                        </div>
                             ))}
                         </div>
                     </div>
