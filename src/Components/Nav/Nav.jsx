@@ -21,6 +21,7 @@ const Nav = () => {
   };
 
   const handleItemClick = (itemName) => {
+    // console.log(itemName)
     setActiveItem(itemName);
   };
 
@@ -58,19 +59,30 @@ const Nav = () => {
         </div>
       </nav>
 
-      {/* Bottom Navigation Icons */}
-      <div className="bottom-nav-icons">
-        <Link to="/home" onClick={() => handleItemClick('home')} className={activeItem === 'home' ? 'active' : ''}><FontAwesomeIcon icon={faHome} /> Home</Link>
-        <Link to="/cart" onClick={() => handleItemClick('cart')} className={activeItem === 'cart' ? 'active' : ''}><FontAwesomeIcon icon={faShoppingCart} />Cart {cartItemCount}</Link>
-        <Link to="/invoice" onClick={() => handleItemClick('invoice')} className={activeItem === 'invoice' ? 'active' : ''}><FontAwesomeIcon icon={faFileInvoice} />Invoice</Link>
-        {!token ? <Link to="/login" onClick={() => handleItemClick('profile')} className={activeItem === 'profile' ? 'active' : ''}><FontAwesomeIcon icon={faUser} />
+       {/* Bottom Navigation Icons */}
+    <div className="bottom-nav-icons">
+      <Link to="/home" className={window.location.pathname === '/home' ? 'active' : ''}>
+        <FontAwesomeIcon icon={faHome} /> Home
+      </Link>
+      <Link to="/cart" className={window.location.pathname === '/cart' ? 'active' : ''}>
+        <FontAwesomeIcon icon={faShoppingCart} /> Cart {cartItemCount}
+      </Link>
+      <Link to="/invoice" className={window.location.pathname === '/invoice' ? 'active' : ''}>
+        <FontAwesomeIcon icon={faFileInvoice} /> Invoice
+      </Link>
+      
+      {!token ? 
+        <Link to="/login" className={window.location.pathname === '/login' ? 'active' : ''}>
+          <FontAwesomeIcon icon={faUser} />
           Login
-        </Link> :
-          <Link to="/home" onClick={handleLogout} className={activeItem === 'profile' ? 'active' : ''}><FontAwesomeIcon icon={faUser} />
-            Logout
-          </Link>}
-
-      </div>
+        </Link> 
+        :
+        <Link to="/home" onClick={handleLogout} className={window.location.pathname === '/home' ? 'active' : ''}>
+          <FontAwesomeIcon icon={faUser} />
+          Logout
+        </Link>
+      }
+    </div>
     </>
   );
 };

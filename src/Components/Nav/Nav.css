@@ -43,6 +43,8 @@ nav {
 }
 
 /* Media query for smaller screens */
+
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   /* Display the bottom navigation when on smaller screens */
   .bottom-nav-icons {
@@ -66,18 +68,35 @@ nav {
     justify-content: center;
     color: #2E0052;
     text-decoration: none;
-    font-size: 24px;
-    position: relative; /* Make sure the anchor tags are positioned */
+    font-size: 19px;
+    position: relative; 
   }
 
   /* Style for line above active icon */
   .bottom-nav-icons a.active::before {
     content: '';
     position: absolute;
-    width: 100%; /* Full width */
-    height: 2px; /* Height of the line */
-    background-color: #2E0052; /* Color of the line */
-    top: -4px; /* Position the line above the icon */
-    left: 0; /* Start from the left */
+    width: 100%; 
+    height: 2px; 
+    background-color: #2E0052;
+    top: -4px; 
+    left: 0; 
+  }
+
+  /* Add style for default bottom navigation icon */
+  .bottom-nav-icons a::before {
+    content: '';
+    position: absolute;
+    width: 100%; 
+    height: 2px; 
+    background-color: transparent; 
+    top: -4px; 
+    left: 0;
+    transition: background-color 0.3s; 
+  }
+
+  /* Update style for active bottom navigation icon */
+  .bottom-nav-icons a.active::before {
+    background-color: #2E0052; 
   }
 }
