@@ -126,6 +126,7 @@
 
     .action-buttons button{
         border-radius: 15px;
+        width: 200px;
     }
 
     .product-deatils a{

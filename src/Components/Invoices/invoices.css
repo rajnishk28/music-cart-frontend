@@ -60,6 +60,9 @@
 /* Media Queries for responsiveness */
 
 @media screen and (max-width: 768px) {
+    .invoice-back-button{
+        display: none;
+    }
     .right-invoice a {
         width: auto;
         padding: 20px;

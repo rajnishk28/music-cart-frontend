@@ -8,10 +8,12 @@
 }
 
 .left-cart {
-    width:100%;
-    max-height:336px; /* Limit height to 500px */
+    width: 100%;
+    max-height: 336px;
+    /* Limit height to 500px */
     overflow-y: auto;
-    padding-right: 10px; /* Add some padding to the right for spacing */
+    padding-right: 10px;
+    /* Add some padding to the right for spacing */
 }
 
 .cart-title {
@@ -74,8 +76,10 @@
 
 /* Customize scrollbar */
 .left-cart {
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: #999 transparent; /* For Firefox */
+    scrollbar-width: thin;
+    /* For Firefox */
+    scrollbar-color: #999 transparent;
+    /* For Firefox */
 }
 
 .left-cart::-webkit-scrollbar {
@@ -97,11 +101,16 @@
 
 /* Increase width and height of select button */
 .quantity select {
-    width: 100px; /* Adjust width as needed */
-    height: 30px; /* Adjust height as needed */
-    border: 1px solid #ccc; /* Add border for consistency */
-    border-radius: 5px; /* Add border radius for a rounded appearance */
-    padding: 5px; /* Add padding for better spacing */
+    width: 100px;
+    /* Adjust width as needed */
+    height: 30px;
+    /* Adjust height as needed */
+    border: 1px solid #ccc;
+    /* Add border for consistency */
+    border-radius: 5px;
+    /* Add border radius for a rounded appearance */
+    padding: 5px;
+    /* Add padding for better spacing */
 }
 
 .quantity select:focus {
@@ -113,22 +122,38 @@
 }
 
 @media screen and (max-width: 768px) {
+    .cart-back-button {
+        display: none;
+    }
+
     .cart-container {
         display: flex;
-        flex-direction: column; 
-        justify-content: space-around; 
-        align-items: flex-start; 
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
         margin-bottom: 80px;
     }
 
+    .quantity select {
+        width: 3rem;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: center;
+        /* width: 100vw; */
+    }
+
     .left-cart {
-        max-height: none; 
-        overflow-y: visible; 
-        padding-right: 0; 
+        max-height: none;
+        overflow-y: visible;
+
     }
 
     .right-cart {
-        width: 100%; /* Reset width to 30% for larger screens */
-        margin-top: 50px; /* Remove margin top for larger screens */
+        width: 100%;
+        /* Reset width to 30% for larger screens */
+        margin-top: 50px;
+        /* Remove margin top for larger screens */
     }
 }

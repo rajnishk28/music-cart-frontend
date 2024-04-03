@@ -39,7 +39,9 @@ const Invoice = () => {
 
     return (
         <>
-            <Link to={"/home"} className='back-button'>Back to Home</Link>
+          <div className="invoice-back-button">
+          <Link to={"/home"} className='back-button'>Back to Home</Link>
+            </div>  
 
             <div className="invoices-container">
                 <h2>My Invoices</h2>

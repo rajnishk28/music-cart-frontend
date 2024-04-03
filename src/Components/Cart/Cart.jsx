@@ -74,10 +74,11 @@ const Cart = () => {
 
     return (
         <>
-          <Link to={"/home"} className='back-button'>Back to products</Link>
+          <div className='cart-back-button'> <Link to={"/home"} className='back-button'>Back to products</Link></div>
             <div className="cart-container">
                 <div className="left-cart-container">
                     <h2 className="cart-title">Cart Items</h2>
+                    
                     <div className="left-cart">
                         <ul className="cart-list">
                             {cartItems.map((item, index) => (

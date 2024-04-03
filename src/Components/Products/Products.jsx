@@ -200,7 +200,8 @@ const Products = () => {
       <section>
         <div className='banner'>
           <div className='banner-content'>
-            <p>Grab upto 50% off on Selected headphones</p>
+            <p>Grab upto 50% off on 
+              Selected headphones</p>
             <img className='banner-image' src={image1} alt="" />
           </div>
         </div>
@@ -219,13 +220,13 @@ const Products = () => {
           <div className='all-buttons'>
 
 
-            <div className='button-box' onClick={() => toggleLayout('grid')}>
+            <div className='button-box grid-box' onClick={() => toggleLayout('grid')}>
             {
                 layout=="grid" ? <img src={image3} /> :<img src={image6} />
               }
               
             </div>
-            <div className='button-box' onClick={() => toggleLayout('list')}>
+            <div className='button-box list-box' onClick={() => toggleLayout('list')}>
               {
                 layout=="list" ? <img src={image4} /> :<img src={image2} />
               }
