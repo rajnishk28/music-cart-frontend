@@ -77,7 +77,7 @@ const Nav = () => {
           Login
         </Link> 
         :
-        <Link to="/home" onClick={handleLogout} className={window.location.pathname === '/home' ? 'active' : ''}>
+        <Link to="/home" onClick={handleLogout}>
           <FontAwesomeIcon icon={faUser} />
           Logout
         </Link>
