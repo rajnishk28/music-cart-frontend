@@ -3,6 +3,11 @@ nav {
   max-width: 1728px;
   height: 63px;
   background-color: #2E0052;
+  /* position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 9999; */
 }
 
 /* Style for the navigation container */

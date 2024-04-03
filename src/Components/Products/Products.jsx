@@ -29,7 +29,7 @@ const Products = () => {
   const [feedbackType, setFeedbackType] = useState("");
   const [message, setMessage] = useState("");
   const [cartItemCount, setCartItemCount] = useState(0);
-  const[error,setError]=useState("")
+  const [error, setError] = useState("")
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -81,11 +81,11 @@ const Products = () => {
   };
 
   const handleFeedBacksubmit = async () => {
-    if(feedbackType === "" || message === "") {
+    if (feedbackType === "" || message === "") {
       setError("Please fill all the fields")
       return;
     }
-  
+
     try {
       const response = await axios.post(
         `${baseUrl}/feedback/create`,
@@ -97,15 +97,15 @@ const Products = () => {
         }
       );
       toast.success("Feedback saved successfully");
-      
+
       setShowFeedbackForm(false)
-      
+
     } catch (error) {
       console.error(error);
     }
   };
-  
-  
+
+
 
 
   const addToCart = async (id) => {
@@ -151,7 +151,8 @@ const Products = () => {
 
   return (
     <>
-      <Toaster />
+      <Toaster position="bottom-right"
+        reverseOrder={false} />
 
       <section className='section-head'>
         <div className='Head'>
@@ -200,7 +201,7 @@ const Products = () => {
       <section>
         <div className='banner'>
           <div className='banner-content'>
-            <p>Grab upto 50% off on 
+            <p>Grab upto 50% off on
               Selected headphones</p>
             <img className='banner-image' src={image1} alt="" />
           </div>
@@ -221,16 +222,16 @@ const Products = () => {
 
 
             <div className='button-box grid-box' onClick={() => toggleLayout('grid')}>
-            {
-                layout=="grid" ? <img src={image3} /> :<img src={image6} />
+              {
+                layout == "grid" ? <img src={image3} /> : <img src={image6} />
               }
-              
+
             </div>
             <div className='button-box list-box' onClick={() => toggleLayout('list')}>
               {
-                layout=="list" ? <img src={image4} /> :<img src={image2} />
+                layout == "list" ? <img src={image4} /> : <img src={image2} />
               }
-             
+
             </div>
 
 
@@ -342,11 +343,11 @@ const Products = () => {
               <div>
                 <textarea placeholder='Enter your feedback...' rows="4" cols="50"
                   onChange={(e) => setMessage(e.target.value)}
-                  
+
                 />
               </div>
               <div className="btn">
-              {error && <div className="error">{error}</div>}
+                {error && <div className="error">{error}</div>}
                 <button onClick={handleFeedBacksubmit}>Submit</button>
               </div>
             </div>
