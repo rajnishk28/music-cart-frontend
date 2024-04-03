@@ -219,16 +219,8 @@ section {
     width: 51px;
     height: 51px;
 }
-.grid-button img{
-    background-color: black;
-    border-radius: 15px;
-    
-}
-.list-button img{
-    background-color: black;
-    border-radius: 15px;
-    object-fit: cover;
-}
+
+
 
 .grid-item {
     width: 250px;

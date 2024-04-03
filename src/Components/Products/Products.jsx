@@ -3,7 +3,11 @@ import { faShoppingCart, faQuestionCircle } from '@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import image1 from "../../assets/bannerimg.png"
 import image2 from "../../assets/listButton.png"
-import image3 from "../../assets/gridButton.png"
+import image3 from "../../assets/gridButton1.png"
+import image4 from "../../assets/listButton1.png"
+import image5 from "../../assets/image 4.png"
+import image6 from "../../assets/gridButton.png"
+
 import "./product.css"
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
@@ -153,7 +157,7 @@ const Products = () => {
         <div className='Head'>
           <div className='Head-content'>
             <div>
-              <img src="src/assets/image 4.png" alt="" />
+              <img src={image5} alt="" />
             </div>
             <div>Musicart </div>
 
@@ -216,16 +220,16 @@ const Products = () => {
 
 
             <div className='button-box' onClick={() => toggleLayout('grid')}>
-              <span className={layout=="grid" ? 'grid-button':null}>
-                <img src={image3} />
-
-              </span>
+            {
+                layout=="grid" ? <img src={image3} /> :<img src={image6} />
+              }
+              
             </div>
             <div className='button-box' onClick={() => toggleLayout('list')}>
-              <span className={layout=="list" ? 'list-button':null}>
-                <img src={image2} />
-                {/* list */}
-              </span>
+              {
+                layout=="list" ? <img src={image4} /> :<img src={image2} />
+              }
+             
             </div>
 
 
