@@ -70,7 +70,7 @@
     
 
     .invoice-item {
-        width: 100%;
+        width: 100vw;
         /* Full width on smaller screens */
         margin: 10px;
         /* Adjust margin for spacing */
