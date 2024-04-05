@@ -329,7 +329,7 @@ section {
     justify-content: center;
     align-items: center;
     height: 300px;
-    object-fit: cover;
+    object-fit: fill;
     padding: 30px;
     background-color: #D4E5FF;
 }
