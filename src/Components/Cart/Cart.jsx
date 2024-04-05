@@ -69,7 +69,7 @@ const Cart = () => {
     };
 
     if (cartItems.length === 0) {
-        return <div className="cart-container">No items in cart</div>;
+        return <div className="noitem-cart-container">No items in cart</div>;
     }
 
     return (

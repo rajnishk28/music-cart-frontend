@@ -120,11 +120,18 @@
 .quantity select {
     transition: border-color 0.3s;
 }
+.noitem-cart-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
 @media screen and (max-width: 768px) {
     .cart-back-button {
         display: none;
     }
+
 
     .cart-container {
         display: flex;

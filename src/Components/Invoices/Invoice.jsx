@@ -34,7 +34,7 @@ const Invoice = () => {
     }, []);
 
     if (invoices.length === 0) {
-        return <div className="cart-container">No items in Invoice</div>;
+        return <div className="noitem-cart-container">No items in Invoice</div>;
     }
 
     return (
