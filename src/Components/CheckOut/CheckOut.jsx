@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import baseUrl from '../../api';
 import "./checkout.css"
+import image1 from "../../assets/Vector.png";
 import { useNavigate } from 'react-router-dom';
 
 const CheckOut = () => {
@@ -13,7 +14,7 @@ const CheckOut = () => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const name =localStorage.getItem("name");
+    const name = localStorage.getItem("name");
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -79,9 +80,57 @@ const CheckOut = () => {
                 },
             });
 
-            console.log('Order placed successfully:', response.data);
-            setCartItems([]);
-            navigate("/success")
+            const order = response.data;
+            console.log('Order created successfully:', order);
+
+            if (paymentMethod === 'credit_card' || paymentMethod === 'upi') {
+                const options = {
+                    key:"rzp_test_RVuOPmBoI6A3ZI", // Use the environment variable here
+                    amount: totalPrice * 100, // Amount is in currency subunits (e.g., paise)
+                    currency: "INR",
+                    name: "Music Cart",
+                    description: "Pay Your Amount ",
+                    image: {image1},
+                    order_id: order.razorpayOrderId, // This is the order ID created in your backend
+                    handler: async function (response) {
+                        try {
+                            const verifyResponse = await axios.post(`${baseUrl}/checkout/verify`, {
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                            }, {
+                                headers: {
+                                    Authorization: `${token}`,
+                                },
+                            });
+
+                            console.log('Payment verified successfully:', verifyResponse.data);
+                            setCartItems([]);
+                            navigate("/success");
+
+                        } catch (error) {
+                            console.error('Error verifying payment:', error);
+                        }
+                    },
+                    prefill: {
+                        name: name,
+                        email: "Test@gmail.com",
+                        contact: "9999999999"
+                    },
+                    notes: {
+                        address: "Music Cart Office"
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+
+                const rzp = new window.Razorpay(options);
+                rzp.open();
+            } else {
+                setCartItems([]);
+                navigate("/success");
+            }
 
         } catch (error) {
             console.error('Error placing order:', error);
@@ -122,8 +171,8 @@ const CheckOut = () => {
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                             <option value="">Select Payment Method</option>
-                            <option value="credit_card">Credit Card</option>
-                            <option value="paypal">PayPal</option>
+                            <option value="credit_card">Card</option>
+                            <option value="upi">Upi</option>
                             <option value="cash">Cash on Delivery</option>
                         </select>
                     </div>
