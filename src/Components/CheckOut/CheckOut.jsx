@@ -4,13 +4,15 @@ import baseUrl from '../../api';
 import "./checkout.css"
 import image1 from "../../assets/Vector.png";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const CheckOut = () => {
     const [cartItems, setCartItems] = useState([]);
     const [address, setAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const userId = localStorage.getItem('userId');
-    const [totalPrice, setTotalPrice] = useState(0);
+    const location = useLocation();
+    const { totalAmount } = location.state || { totalAmount: 0 };
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -33,11 +35,6 @@ const CheckOut = () => {
 
                 setCartItems(response.data.cartItems);
 
-                // Calculate total price
-                const total = response.data.cartItems.reduce((accumulator, currentItem) => {
-                    return accumulator + currentItem.productId.price * currentItem.quantity;
-                }, 0);
-                setTotalPrice(total);
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
@@ -67,7 +64,7 @@ const CheckOut = () => {
                     productId: item.productId._id,
                     quantity: item.quantity
                 })),
-                totalPrice: totalPrice,
+                totalPrice: totalAmount,
                 customerName: name,
                 shippingAddress: address,
                 paymentMethod: paymentMethod,
@@ -85,12 +82,12 @@ const CheckOut = () => {
 
             if (paymentMethod === 'credit_card' || paymentMethod === 'upi') {
                 const options = {
-                    key:"rzp_test_RVuOPmBoI6A3ZI", // Use the environment variable here
-                    amount: totalPrice * 100, // Amount is in currency subunits (e.g., paise)
+                    key: "rzp_test_RVuOPmBoI6A3ZI", // Use the environment variable here
+                    amount: totalAmount * 100, // Amount is in currency subunits (e.g., paise)
                     currency: "INR",
                     name: "Music Cart",
                     description: "Pay Your Amount ",
-                    image: {image1},
+                    image: { image1 },
                     order_id: order.razorpayOrderId, // This is the order ID created in your backend
                     handler: async function (response) {
                         try {
@@ -183,32 +180,32 @@ const CheckOut = () => {
 
                         <div className="cart-image-body">
                             {cartItems.map((item, index) => (
-                                
+
                                 <div key={index}
                                     className="product-image-container"
                                     onClick={() => setSelectedImageIndex(index)}
                                 >
                                     <img src={item.productId.imageUrl} alt="Product" />
-                                    </div>   
-                               
+                                </div>
+
                             ))}
 
                             {
                                 cartItems.map((item, index) => (
-                                    
+
                                     <div key={index}
                                         onClick={() => setSelectedImageIndex(index)}
                                     >
-                                         <div className="product-info">
-                                        {selectedImageIndex === index && (
-                                            <div className="product-info-data">
-                                                <p>{item.productId.company} {item.productId.name}</p>
-                                                <p>Colour {item.productId.color}</p>
-                                            </div>
-                                        )}
-                                    </div>
+                                        <div className="product-info">
+                                            {selectedImageIndex === index && (
+                                                <div className="product-info-data">
+                                                    <p>{item.productId.company} {item.productId.name}</p>
+                                                    <p>Colour {item.productId.color}</p>
+                                                </div>
+                                            )}
                                         </div>
-                            ))}
+                                    </div>
+                                ))}
                         </div>
                     </div>
 
@@ -218,12 +215,12 @@ const CheckOut = () => {
                                 <button className="place-order-button" onClick={handlePlaceOrder}>Place Your Order</button>
                             </div>
                             <div>
-                                <p>Order Total: ₹{totalPrice}</p>
+                                <p>Order Total: ₹{totalAmount}</p>
                                 <p>By placing your order, you agree to Musicart privacy notice and conditions of use.</p>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div className="right-container">
                     <button className="place-order-button" onClick={handlePlaceOrder}>Place Your Order</button>
@@ -232,7 +229,7 @@ const CheckOut = () => {
                     <div className="order-summary">
                         <h3>Order Summary</h3>
                         <p>Total Items: {cartItems.length}</p>
-                        <p>Total Amount: ₹{totalPrice}</p>
+                        <p>Total Amount: ₹{totalAmount}</p>
                     </div>
                 </div>
             </div>

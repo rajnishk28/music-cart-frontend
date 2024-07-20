@@ -29,6 +29,7 @@ const InvoiceDetails = () => {
                 }
 
                 setInvoice(response.data);
+                // console.log(response.data)
                 setIsLoading(false);
             } catch (error) {
                 console.error(error);
@@ -63,7 +64,7 @@ const InvoiceDetails = () => {
                             <textarea
                                 className="address-input"
                                 value={invoice.shippingAddress}
-                                readOnly 
+                                readOnly
                             />
                         </div>
                     </div>
@@ -72,42 +73,55 @@ const InvoiceDetails = () => {
                         <h3>2. Payment method</h3>
                         <select
                             className="payment-method-select"
-                            disabled 
-                            
+                            disabled
+
                         >
                             <option value={invoice.paymentMethod}>{invoice.paymentMethod}</option>
-                            
+
+                        </select>
+                    </div>
+                    <div className="payment-container">
+                        <h3>3.Order Id</h3>
+                        <select
+                            className="payment-method-select"
+                            disabled
+
+                        >
+                            <option value={invoice.razorpayOrderId
+                            }>{invoice.razorpayOrderId
+                                }</option>
+
                         </select>
                     </div>
 
                     <div className="cart-items-container">
                         <div className="cart-header">
-                            <h3>3. Review items and delivery</h3>
+                            <h3>4. Review items and delivery</h3>
                         </div>
                         <div className="cart-image-body">
                             {invoice.items.map((item, index) => (
                                 <div key={index} className="product-image-container" onClick={() => setSelectedImageIndex(index)}>
                                     <img src={item.productId.imageUrl} alt="Product" />
-                                   
+
                                 </div>
                             ))}
 
-{
+                            {
                                 invoice.items.map((item, index) => (
-                                    
+
                                     <div key={index}
                                         onClick={() => setSelectedImageIndex(index)}
                                     >
-                                         <div className="product-info">
-                                        {selectedImageIndex === index && (
-                                            <div className="product-info-data">
-                                                <p>{item.productId.company} {item.productId.name}</p>
-                                                <p>Colour {item.productId.color}</p>
-                                            </div>
-                                        )}
-                                    </div>
+                                        <div className="product-info">
+                                            {selectedImageIndex === index && (
+                                                <div className="product-info-data">
+                                                    <p>{item.productId.company} {item.productId.name}</p>
+                                                    <p>Colour {item.productId.color}</p>
+                                                </div>
+                                            )}
                                         </div>
-                            ))}
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>
@@ -115,7 +129,7 @@ const InvoiceDetails = () => {
                 <div className="right-container">
                     <div className="order-summary">
                         <h3>Order Summary</h3>
-                        <p>Items : ₹{invoice.totalPrice-45}</p>
+                        <p>Items : ₹{invoice.totalPrice - 45}</p>
                         <p>Delivery  : ₹45</p>
                         <p>Order Total: ₹{invoice.totalPrice}</p>
                     </div>

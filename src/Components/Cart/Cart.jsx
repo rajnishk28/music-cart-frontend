@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import baseUrl from '../../api';
 import './cart.css'; // Renamed to Cart.css
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0); // Initialize total price state
     const userId = localStorage.getItem('userId');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -27,7 +27,6 @@ const Cart = () => {
 
                 setCartItems(response.data.cartItems);
 
-
                 // Calculate total price
                 let total = 0;
                 response.data.cartItems.forEach(item => {
@@ -41,8 +40,6 @@ const Cart = () => {
 
         fetchCartItems();
     }, [userId]);
-
-
 
     const calculateTotalAmount = () => {
         const discount = 0;
@@ -72,13 +69,19 @@ const Cart = () => {
         return <div className="noitem-cart-container">No items in cart</div>;
     }
 
+    const handlePlaceOrder = () => {
+        const totalAmount = calculateTotalAmount();
+        navigate('/checkout', { state: { totalAmount } });
+    };
+
     return (
         <>
-          <div className='cart-back-button'> <Link to={"/home"} className='back-button'>Back to products</Link></div>
+            <div className='cart-back-button'>
+                <Link to={"/home"} className='back-button'>Back to products</Link>
+            </div>
             <div className="cart-container">
                 <div className="left-cart-container">
                     <h2 className="cart-title">Cart Items</h2>
-                    
                     <div className="left-cart">
                         <ul className="cart-list">
                             {cartItems.map((item, index) => (
@@ -111,9 +114,9 @@ const Cart = () => {
                         <div>Discount on MRP: ₹{0}</div> {/* Display discount amount */}
                         <div>Convenience Fee: ₹{45}</div> {/* Display convenience fee */}
                         <div>Total Amount: ₹{calculateTotalAmount()}</div> {/* Display total amount */}
-                        <Link to={"/checkout"}>
+                        <button onClick={handlePlaceOrder}>
                             PLACE ORDER
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
