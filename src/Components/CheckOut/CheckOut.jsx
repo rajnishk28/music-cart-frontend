@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import baseUrl from '../../api';
-import "./checkout.css"
+import "./checkout.css";
 import image1 from "../../assets/Vector.png";
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CheckOut = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -12,7 +11,7 @@ const CheckOut = () => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const userId = localStorage.getItem('userId');
     const location = useLocation();
-    const { totalAmount } = location.state || { totalAmount: 0 };
+    const { totalAmount = 0 } = location.state || {};
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -34,7 +33,6 @@ const CheckOut = () => {
                 });
 
                 setCartItems(response.data.cartItems);
-
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
@@ -83,18 +81,19 @@ const CheckOut = () => {
             if (paymentMethod === 'credit_card' || paymentMethod === 'upi') {
                 const options = {
                     key: "rzp_test_RVuOPmBoI6A3ZI", // Use the environment variable here
-                    amount: totalAmount * 100, // Amount is in currency subunits (e.g., paise)
-                    currency: "INR",
+                    amount: order.amount, // Amount is in currency subunits (e.g., paise)
+                    currency: order.currency,
                     name: "Music Cart",
-                    description: "Pay Your Amount ",
-                    image: { image1 },
-                    order_id: order.razorpayOrderId, // This is the order ID created in your backend
+                    description: "Pay Your Amount",
+                    image: image1,
+                    order_id: order.order_id, // This is the order ID created in your backend
                     handler: async function (response) {
                         try {
                             const verifyResponse = await axios.post(`${baseUrl}/checkout/verify`, {
                                 razorpay_order_id: response.razorpay_order_id,
                                 razorpay_payment_id: response.razorpay_payment_id,
                                 razorpay_signature: response.razorpay_signature,
+                                checkoutData: checkoutData // Include checkoutData in verification request
                             }, {
                                 headers: {
                                     Authorization: `${token}`,
@@ -104,7 +103,6 @@ const CheckOut = () => {
                             console.log('Payment verified successfully:', verifyResponse.data);
                             setCartItems([]);
                             navigate("/success");
-
                         } catch (error) {
                             console.error('Error verifying payment:', error);
                         }
@@ -128,15 +126,14 @@ const CheckOut = () => {
                 setCartItems([]);
                 navigate("/success");
             }
-
         } catch (error) {
             console.error('Error placing order:', error);
         }
     };
 
     const backToCart = () => {
-        navigate("/cart")
-    }
+        navigate("/cart");
+    };
 
     return (
         <div className="checkout-page">
@@ -149,7 +146,7 @@ const CheckOut = () => {
             <div className="checkout-container">
                 <div className="left-container">
                     <div className="address-container">
-                        <h3>1.Delivery address</h3>
+                        <h3>1. Delivery address</h3>
                         <div>
                             <p>{name.toUpperCase()}</p>
                             <textarea
@@ -161,7 +158,7 @@ const CheckOut = () => {
                         </div>
                     </div>
                     <div className="payment-container">
-                        <h3>2.Payment method</h3>
+                        <h3>2. Payment method</h3>
                         <select
                             className="payment-method-select"
                             value={paymentMethod}
@@ -175,37 +172,35 @@ const CheckOut = () => {
                     </div>
                     <div className="cart-items-container">
                         <div className="cart-header">
-                            <h3>3.Review items and delivery</h3>
+                            <h3>3. Review items and delivery</h3>
                         </div>
 
                         <div className="cart-image-body">
                             {cartItems.map((item, index) => (
-
-                                <div key={index}
+                                <div
+                                    key={index}
                                     className="product-image-container"
                                     onClick={() => setSelectedImageIndex(index)}
                                 >
                                     <img src={item.productId.imageUrl} alt="Product" />
                                 </div>
-
                             ))}
 
-                            {
-                                cartItems.map((item, index) => (
-
-                                    <div key={index}
-                                        onClick={() => setSelectedImageIndex(index)}
-                                    >
-                                        <div className="product-info">
-                                            {selectedImageIndex === index && (
-                                                <div className="product-info-data">
-                                                    <p>{item.productId.company} {item.productId.name}</p>
-                                                    <p>Colour {item.productId.color}</p>
-                                                </div>
-                                            )}
-                                        </div>
+                            {cartItems.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setSelectedImageIndex(index)}
+                                >
+                                    <div className="product-info">
+                                        {selectedImageIndex === index && (
+                                            <div className="product-info-data">
+                                                <p>{item.productId.company} {item.productId.name}</p>
+                                                <p>Colour {item.productId.color}</p>
+                                            </div>
+                                        )}
                                     </div>
-                                ))}
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -220,7 +215,6 @@ const CheckOut = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div className="right-container">
                     <button className="place-order-button" onClick={handlePlaceOrder}>Place Your Order</button>
