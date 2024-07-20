@@ -9,6 +9,9 @@ const SuccessPage = () => {
   const handleGoBack = () => {
     navigate('/home')
   }
+  const handleviewInvoice = () => {
+    navigate('/invoice')
+  }
   return (
     <div className='success-container'>
       <div className="container">
@@ -31,8 +34,12 @@ const SuccessPage = () => {
           You will be receiving a confirmation email with order details
         </div>
         <div className="container-2">
-          <button className="go-back-to-home-page" onClick={handleGoBack}>
+          {/* <button className="go-back-to-home-page" onClick={handleGoBack}>
             Go back to Home page
+          </button> */}
+        
+          <button className="go-back-to-home-page" onClick={handleviewInvoice}>
+            View Invoice
           </button>
         </div>
       </div>
