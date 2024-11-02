@@ -74,9 +74,14 @@ const ProductDetails = () => {
     };
 
     const buyNow = async () => {
-        await addToCart();
-        toast.success('Item added to cart:')
-        navigate("/cart");
+        if (!token) {
+            navigate("/login");
+        } else {
+            await addToCart();
+            toast.success('Item added to cart:')
+            navigate("/cart");
+
+        }
     }
 
     return (

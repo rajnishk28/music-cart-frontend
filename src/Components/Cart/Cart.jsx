@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0); // Initialize total price state
+    const [totalPrice, setTotalPrice] = useState(0);
     const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
@@ -14,11 +14,6 @@ const Cart = () => {
         const fetchCartItems = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) {
-                    console.error('Token not found');
-                    return;
-                }
-
                 const response = await axios.get(`${baseUrl}/cart/all/${userId}`, {
                     headers: {
                         Authorization: `${token}`,
